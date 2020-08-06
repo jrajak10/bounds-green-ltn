@@ -33,31 +33,27 @@ map.on('load', async function () {
         "Tewkesbury Terrace", "Russell Road", "Whittington Road", "Palmerston Road"];
 
     let trafficRoadsArray = ['Bounds Green Road', 'Bowes Road', "Green Lanes", "High Road", "Telford Road", 
-                            "Durnsford Road", "Powys Lane", "Wilmer Way", "Pinkham Way"];
+                            "Durnsford Road", "Powys Lane", "Wilmer Way", "Pinkham Way", "North Circular Road"];
 
     let oneWayRoadsArray = ["Queens Road", 'Sidney Avenue', "Melbourne Avenue", "Kelvin Avenue", "Belsize Avenue", "Spencer Avenue"];
 
     
-    let trafficRoads = await fetchRoads(trafficRoadsArray)
-    let mergedTrafficRoads = convertAndMerge(trafficRoads)
+    let trafficRoads = await arrayToRoads(trafficRoadsArray);
    
     let brownlow = await getFeatures('Highways_Roadlink', 'Brownlow Road');
 
     let bannedStreets = [[brownlow[1]], [brownlow[5]], [brownlow[7]], [brownlow[15]], [brownlow[16]]]
     let mergedBannedStreets = convertAndMerge(bannedStreets);
  
-    let allowedStreets = await fetchRoads(roads);
-    let mergedAllowedStreets = convertAndMerge(allowedStreets);
-
-    let oneWayRoads = await fetchRoads(oneWayRoadsArray);
-    let mergedOneWayRoads = convertAndMerge(oneWayRoads);
+    let allowedStreets = await arrayToRoads(roads);
+    let oneWayRoads = await arrayToRoads(oneWayRoadsArray);
 
 
 
-    addStreetsLayer(map, mergedOneWayRoads, 'one-way-roads', '#084f9d', 5)
-    addStreetsLayer(map, mergedAllowedStreets, 'allowed-streets', '#00ab66', 5)
+    addStreetsLayer(map, oneWayRoads, 'one-way-roads', '#084f9d', 5)
+    addStreetsLayer(map, allowedStreets, 'allowed-streets', '#00ab66', 5)
     addStreetsLayer(map, mergedBannedStreets, 'banned-streets', '#FFA500', 10)
-    addStreetsLayer(map, mergedTrafficRoads, 'traffic-streets', '#F00', 10)
+    addStreetsLayer(map, trafficRoads, 'traffic-streets', '#F00', 10)
     
     
 
@@ -135,6 +131,13 @@ function convertAndMerge(arr){
     return mergedArrayCoords;
 }
 
+async function arrayToRoads(arr){
+    let fetchedRoads = await fetchRoads(arr);
+    let mergedRoads = convertAndMerge(fetchedRoads);
+
+    return mergedRoads
+}
+
 function addStreetsLayer(map, features, id, color, width) {
     map.addSource(id, {
         'type': 'geojson',
@@ -165,7 +168,7 @@ function addStreetsLayer(map, features, id, color, width) {
 async function getFeatures(typeName, literal) {
     // Convert the bounds to a formatted string.
     let sw = [51.59536880893367, -0.13772922026373635],
-        ne = [51.61765036734033, -0.08604524597762975];
+        ne = [51.61892429114269, -0.09636146493642173];
 
     let coords = sw + ' ' + ne;
     // Create an OGC XML filter parameter value which will select the Airport
