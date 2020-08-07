@@ -1,0 +1,55 @@
+{
+    "type": "FeatureCollection",
+    "features": [
+   {
+     "type": "Feature",
+     "geometry": {
+        "type": "LineString",
+        "coordinates":  [[-0.1266702609342473, 51.60947957542871], [-0.1262950960851867, 51.609483765513716]]
+     },
+     "properties": {
+     "Name":"Warwick Road Gate (only emergency and service vehicles allowed through here)"
+     }
+   },
+   {
+     "type": "Feature",
+     "geometry": {
+        "type": "LineString",
+        "coordinates":  [[-0.12620298605713742, 51.609573477662735], [-0.12607950036806415, 51.609849365765655]]
+     },
+     "properties": {
+     "Name":"Maidstone Road Gate"
+     }
+   },
+   {
+     "type": "Feature",
+     "geometry": {
+        "type": "LineString",
+        "coordinates":  [[-0.1229289319317104, 51.60990958879768], [-0.12286724112436787, 51.61004201052967]]
+     },
+     "properties": {
+     "Name":"York Road Gate"
+     }
+   },
+   {
+     "type": "Feature",
+     "geometry": {
+        "type": "LineString",
+        "coordinates":  [[-0.12079559516655536, 51.60901354470741], [-0.12047775339783584, 51.60898689322005]]
+     },
+     "properties": {
+     "Name":"Westbury Road Gate"
+     }
+   },
+   {
+     "type": "Feature",
+     "geometry": {
+        "type": "LineString",
+        "coordinates":  [[-0.11401863751143537, 51.61248383156058], [-0.11359686013975079, 51.61246176249034]]
+     },
+     "properties": {
+     "Name":"Palmerston Road Gate"
+     }
+   }
+ ]
+ }

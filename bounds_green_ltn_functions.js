@@ -48,12 +48,15 @@ map.on('load', async function () {
     let allowedStreets = await arrayToRoads(roads);
     let oneWayRoads = await arrayToRoads(oneWayRoadsArray);
 
-
+    let roadGates = await fetchData('road_gates.json');
+    // let mergedRoadGates = convertAndMerge(roadGates)
 
     addStreetsLayer(map, oneWayRoads, 'one-way-roads', '#084f9d', 5)
     addStreetsLayer(map, allowedStreets, 'allowed-streets', '#00ab66', 5)
     addStreetsLayer(map, mergedBannedStreets, 'banned-streets', '#FFA500', 10)
     addStreetsLayer(map, trafficRoads, 'traffic-streets', '#F00', 10)
+    addStreetsLayer(map, roadGates, 'road-gates', '#000', 7.5)
+    console.log(map.getLayer('road-gates'))
     
     
 
@@ -68,10 +71,14 @@ map.on('load', async function () {
                 y = bounds.getNorthEast().lat + ',' + bounds.getNorthEast().lng;
 
             let z = x + ' ' + y;
+            let html = e.features[0].properties.RoadName1 + ' '+ e.features[0].properties.RoadClassification 
+            if(id === 'road-gates'){
+                html = e.features[0].properties.Name
+            }
 
             new mapboxgl.Popup()
                 .setLngLat(e.lngLat)
-                .setHTML(e.features[0].properties.RoadName1 + ' '+ e.features[0].properties.RoadClassification )
+                .setHTML(html)
                 .addTo(map);
         });
     }
@@ -93,10 +100,15 @@ map.on('load', async function () {
     click('allowed-streets')
     click('traffic-streets')
     click('banned-streets')
+    click('road-gates')
     mouseEnter('allowed-streets')
+    mouseEnter('traffic-streets')
     mouseEnter('banned-streets')
+    mouseEnter('road-gates')
     mouseLeave('allowed-streets')
+    mouseLeave('traffic-streets')
     mouseLeave('banned-streets')
+    mouseLeave('road-gates')
 
 });
 
@@ -146,7 +158,6 @@ function addStreetsLayer(map, features, id, color, width) {
             'features': features
         }
     });
-
     map.addLayer({
         'id': id,
         'type': 'line',
@@ -158,7 +169,13 @@ function addStreetsLayer(map, features, id, color, width) {
     });
 }
 
-
+//fetches json data from json files
+async function fetchData(data) {
+    let fetchedData = await fetch(data);
+    let json = await fetchedData.json();
+    let features = json.features;
+    return features
+}
 
 
 
@@ -208,9 +225,7 @@ async function getFeatures(typeName, literal) {
         };
 
         let featureUrl = getUrl(params);
-        let response = await fetch(featureUrl);
-        let json = await response.json();
-        let featureArray = json.features;
+        let featureArray = await fetchData(featureUrl)
         featureLength = featureArray.length;
 
         totalFeatures.push(featureArray);
