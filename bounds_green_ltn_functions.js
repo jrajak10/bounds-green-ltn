@@ -1,7 +1,7 @@
 export { addMapFeatures, addRoadsLayer, API_KEY }
 import { RESIDENTIAL_ROAD_ISSUES, TRAFFIC_ROAD_ISSUES } from "./road_issues.js"
 
-const API_KEY = 'Ae6wi8HZzLBBiZE3xLoRvqYhqoV83ije';
+const API_KEY = '2RqLGYUE6yOw3yfoF2vw8dFQb3gkrD7R';
 const WFS_SERVICE_URL = 'https://api.os.uk/features/v1/wfs';
 
 function addMapFeatures(map) {
@@ -108,7 +108,6 @@ function addMapFeatures(map) {
         mouseLeave('one-way-roads')
         mouseLeave('banned-roads')
         mouseLeave('road-gates')
-
     });
 
 
