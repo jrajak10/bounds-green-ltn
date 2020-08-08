@@ -1,69 +1,24 @@
-export { addMapFeatures, addStreetsLayer, API_KEY }
+export { addMapFeatures, addRoadsLayer, API_KEY }
+import { RESIDENTIAL_ROAD_ISSUES, TRAFFIC_ROAD_ISSUES } from "./road_issues.js"
 
 const API_KEY = 'Ae6wi8HZzLBBiZE3xLoRvqYhqoV83ije';
 const WFS_SERVICE_URL = 'https://api.os.uk/features/v1/wfs';
 
-function addMapFeatures(map){
+function addMapFeatures(map) {
     map.dragRotate.disable(); // Disable map rotation using right click + drag.
     map.touchZoomRotate.disableRotation(); // Disable map rotation using touch rotation gesture.
-    
+
     // Add navigation control (excluding compass button) to the map.
     map.addControl(new mapboxgl.NavigationControl({
         showCompass: false
     }));
 
     // Add event which waits for the map to be loaded.
-map.on('load', async function () {
-
-    map.on('click', function (e) {
+    map.on('load', async function () {
 
 
-        let bounds = map.getBounds();
+        map.on('click', function (e) {
 
-        let x = bounds.getSouthWest().lat + ',' + bounds.getSouthWest().lng,
-            y = bounds.getNorthEast().lat + ',' + bounds.getNorthEast().lng;
-
-        let z = x + ' ' + y;
-        console.log(JSON.stringify(e.lngLat.wrap()))
-    });
-
-    let roads = ['Westbury Road', 'Brownlow Road', 'Elvendon Road', "Goring Road", "Beech Road",
-        "Hardwicke Road", "Natal Road", "York Road", "Warwick Road", "Highworth Road",
-        "Stanley Road", "Ollerton Road", "Evesham Road", "Shrewsbury Road", "Maidstone Road",
-        "Tewkesbury Terrace", "Russell Road", "Whittington Road", "Palmerston Road"];
-
-    let trafficRoadsArray = ['Bounds Green Road', 'Bowes Road', "Green Lanes", "High Road", "Telford Road", 
-                            "Durnsford Road", "Powys Lane", "Wilmer Way", "Pinkham Way", "North Circular Road"];
-
-    let oneWayRoadsArray = ["Queens Road", 'Sidney Avenue', "Melbourne Avenue", "Kelvin Avenue", "Belsize Avenue", "Spencer Avenue"];
-
-    
-    let trafficRoads = await arrayToRoads(trafficRoadsArray);
-   
-    let brownlow = await getFeatures('Highways_Roadlink', 'Brownlow Road');
-
-    let bannedStreets = [[brownlow[1]], [brownlow[5]], [brownlow[7]], [brownlow[15]], [brownlow[16]]]
-    let mergedBannedStreets = convertAndMerge(bannedStreets);
- 
-    let allowedStreets = await arrayToRoads(roads);
-    let oneWayRoads = await arrayToRoads(oneWayRoadsArray);
-
-    let roadGates = await fetchData('road_gates.json');
-    // let mergedRoadGates = convertAndMerge(roadGates)
-
-    addStreetsLayer(map, oneWayRoads, 'one-way-roads', '#084f9d', 5)
-    addStreetsLayer(map, allowedStreets, 'allowed-streets', '#00ab66', 5)
-    addStreetsLayer(map, mergedBannedStreets, 'banned-streets', '#FFA500', 10)
-    addStreetsLayer(map, trafficRoads, 'traffic-streets', '#F00', 10)
-    addStreetsLayer(map, roadGates, 'road-gates', '#000', 7.5)
-    console.log(map.getLayer('road-gates'))
-    
-    
-
-    function click(id) {
-        // When a click event occurs on a feature in the 'streets' layer, open a popup at
-        // the location of the click, with description HTML from its properties.
-        map.on('click', id, function (e) {
 
             let bounds = map.getBounds();
 
@@ -71,53 +26,97 @@ map.on('load', async function () {
                 y = bounds.getNorthEast().lat + ',' + bounds.getNorthEast().lng;
 
             let z = x + ' ' + y;
-            let html = e.features[0].properties.RoadName1 + ' '+ e.features[0].properties.RoadClassification 
-            if(id === 'road-gates'){
-                html = e.features[0].properties.Name
-            }
-
-            new mapboxgl.Popup()
-                .setLngLat(e.lngLat)
-                .setHTML(html)
-                .addTo(map);
+            console.log(JSON.stringify(e.lngLat.wrap()))
         });
-    }
 
-    function mouseEnter(id) {
-        // Change the cursor to a pointer when the mouse is over the 'streets' layer.
-        map.on('mouseenter', id, function () {
-            map.getCanvas().style.cursor = 'pointer';
-        });
-    }
+        let residentialRoadsArray = ['Westbury Road', 'Brownlow Road', 'Elvendon Road', "Goring Road", "Beech Road",
+            "Hardwicke Road", "Natal Road", "York Road", "Warwick Road", "Highworth Road",
+            "Stanley Road", "Ollerton Road", "Evesham Road", "Shrewsbury Road", "Maidstone Road",
+            "Tewkesbury Terrace", "Russell Road", "Whittington Road", "Palmerston Road"];
 
-    function mouseLeave(id) {
-        // Change the cursor back to a pointer when it leaves the 'streets' layer.
-        map.on('mouseleave', id, function () {
-            map.getCanvas().style.cursor = '';
-        });
-    }
+        let trafficRoadsArray = ['Bounds Green Road', 'Bowes Road', "Green Lanes", "High Road", "Telford Road",
+            "Durnsford Road", "Powys Lane", "Wilmer Way", "Pinkham Way", "North Circular Road"];
 
-    click('allowed-streets')
-    click('traffic-streets')
-    click('banned-streets')
-    click('road-gates')
-    mouseEnter('allowed-streets')
-    mouseEnter('traffic-streets')
-    mouseEnter('banned-streets')
-    mouseEnter('road-gates')
-    mouseLeave('allowed-streets')
-    mouseLeave('traffic-streets')
-    mouseLeave('banned-streets')
-    mouseLeave('road-gates')
+        let oneWayRoadsArray = ["Queens Road", 'Sidney Avenue', "Melbourne Avenue", "Kelvin Avenue", "Belsize Avenue", "Spencer Avenue"];
 
-});
+
+        let trafficRoads = await arrayToRoads(trafficRoadsArray);
+
+        let brownlow = await getFeatures('Highways_Roadlink', 'Brownlow Road');
+
+        let bannedRoads = [[brownlow[1]], [brownlow[5]], [brownlow[7]], [brownlow[15]], [brownlow[16]]]
+        let mergedBannedRoads = convertAndMerge(bannedRoads);
+
+        let residentialRoads = await arrayToRoads(residentialRoadsArray);
+        let oneWayRoads = await arrayToRoads(oneWayRoadsArray);
+
+        let roadGates = await fetchData('road_gates.json');
+        // let mergedRoadGates = convertAndMerge(roadGates)
+
+        addRoadsLayer(map, oneWayRoads, 'one-way-roads', '#084f9d', 5)
+        addRoadsLayer(map, residentialRoads, 'residential-roads', '#FFBF00', 5)
+        addRoadsLayer(map, mergedBannedRoads, 'banned-roads', '#FFA500', 10)
+        addRoadsLayer(map, trafficRoads, 'traffic-roads', '#F00', 10)
+        addRoadsLayer(map, roadGates, 'road-gates', '#000', 7.5)
+
+
+        /**
+     * 
+     * @param {object} params
+     */
+        function click(id, issueObject) {
+            // When a click event occurs on a feature in the 'roads' layer, open a popup at
+            // the location of the click, with description HTML from its properties.
+            map.on('click', id, function (e) {
+                let html = "<h1>" + e.features[0].properties.RoadName1 + "</h1><p>" + issueObject[e.features[0].properties.RoadName1] + "</p>"
+                if (id === 'road-gates') {
+                    html = e.features[0].properties.Name
+                }
+                new mapboxgl.Popup({maxWidth: "300px"})
+                    .setLngLat(e.lngLat)
+                    .setHTML(html)
+                    .addTo(map);
+            });
+        }
+
+        function mouseEnter(id) {
+            // Change the cursor to a pointer when the mouse is over the 'roads' layer.
+            map.on('mouseenter', id, function () {
+                map.getCanvas().style.cursor = 'pointer';
+            });
+        }
+
+        function mouseLeave(id) {
+            // Change the cursor back to a pointer when it leaves the 'roads' layer.
+            map.on('mouseleave', id, function () {
+                map.getCanvas().style.cursor = '';
+            });
+        }
+
+        click('residential-roads', RESIDENTIAL_ROAD_ISSUES)
+        click('traffic-roads', TRAFFIC_ROAD_ISSUES)
+        click('one-way-roads')
+        click('banned-roads')
+        click('road-gates')
+        mouseEnter('residential-roads')
+        mouseEnter('traffic-roads')
+        mouseEnter('one-way-roads')
+        mouseEnter('banned-roads')
+        mouseEnter('road-gates')
+        mouseLeave('residential-roads')
+        mouseLeave('traffic-roads')
+        mouseLeave('one-way-roads')
+        mouseLeave('banned-roads')
+        mouseLeave('road-gates')
+
+    });
 
 
 }
 
 
 
-async function fetchRoads(roads){
+async function fetchRoads(roads) {
     let totalArray = [];
     for (let i = 0; i < roads.length; i++) {
         totalArray.push(await getFeatures('Highways_Roadlink', roads[i]))
@@ -127,7 +126,7 @@ async function fetchRoads(roads){
 
 
 /**
- * Return URL with encoded parameters.
+ * 
  * @param {array} params
  */
 function convertLineStringCoords(arr) {
@@ -137,20 +136,20 @@ function convertLineStringCoords(arr) {
     return arr;
 }
 
-function convertAndMerge(arr){
+function convertAndMerge(arr) {
     let convertedArrayCoords = arr.map(x => convertLineStringCoords(x));
     let mergedArrayCoords = [].concat(...convertedArrayCoords);
     return mergedArrayCoords;
 }
 
-async function arrayToRoads(arr){
+async function arrayToRoads(arr) {
     let fetchedRoads = await fetchRoads(arr);
     let mergedRoads = convertAndMerge(fetchedRoads);
 
     return mergedRoads
 }
 
-function addStreetsLayer(map, features, id, color, width) {
+function addRoadsLayer(map, features, id, color, width) {
     map.addSource(id, {
         'type': 'geojson',
         'data': {

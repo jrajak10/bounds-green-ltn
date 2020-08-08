@@ -9,3 +9,9 @@ body {
     bottom:0; 
     width:100%; 
 }
+
+img {
+    height: 200px;
+    width: 250px;
+    margin-left:  12.5px;
+}
