@@ -1,7 +1,7 @@
 export { addMapFeatures, addRoadsLayer, API_KEY }
 import { RESIDENTIAL_ROAD_ISSUES, TRAFFIC_ROAD_ISSUES } from "./road_issues.js"
 
-const API_KEY = 'Ae6wi8HZzLBBiZE3xLoRvqYhqoV83ije';
+const API_KEY = '2RqLGYUE6yOw3yfoF2vw8dFQb3gkrD7R';
 const WFS_SERVICE_URL = 'https://api.os.uk/features/v1/wfs';
 
 function addMapFeatures(map) {
@@ -39,23 +39,25 @@ function addMapFeatures(map) {
 
         let oneWayRoadsArray = ["Queens Road", 'Sidney Avenue', "Melbourne Avenue", "Kelvin Avenue", "Belsize Avenue", "Spencer Avenue"];
 
+        let totalRoads = [].concat(residentialRoadsArray, trafficRoadsArray, oneWayRoadsArray)
+        let totalRoadFeatures = await getFeatures('Highways_Roadlink', totalRoads);
+        
+        let residentialRoads = await filterAndConvert(totalRoadFeatures, residentialRoadsArray);
+        let trafficRoads = await filterAndConvert(totalRoadFeatures, trafficRoadsArray);
+        let oneWayRoads = await filterAndConvert(totalRoadFeatures, oneWayRoadsArray);
+        
 
-        let trafficRoads = await arrayToRoads(trafficRoadsArray);
+        // let brownlow = await getFeatures('Highways_Roadlink', 'Brownlow Road');
 
-        let brownlow = await getFeatures('Highways_Roadlink', 'Brownlow Road');
+        // let bannedRoads = [[brownlow[1]], [brownlow[5]], [brownlow[7]], [brownlow[15]], [brownlow[16]]]
+        // let mergedBannedRoads = convertAndMerge(bannedRoads);
 
-        let bannedRoads = [[brownlow[1]], [brownlow[5]], [brownlow[7]], [brownlow[15]], [brownlow[16]]]
-        let mergedBannedRoads = convertAndMerge(bannedRoads);
-
-        let residentialRoads = await arrayToRoads(residentialRoadsArray);
-        let oneWayRoads = await arrayToRoads(oneWayRoadsArray);
 
         let roadGates = await fetchData('road_gates.json');
-        // let mergedRoadGates = convertAndMerge(roadGates)
 
         addRoadsLayer(map, oneWayRoads, 'one-way-roads', '#084f9d', 5)
         addRoadsLayer(map, residentialRoads, 'residential-roads', '#FFBF00', 5)
-        addRoadsLayer(map, mergedBannedRoads, 'banned-roads', '#FFA500', 10)
+        // addRoadsLayer(map, mergedBannedRoads, 'banned-roads', '#FFA500', 10)
         addRoadsLayer(map, trafficRoads, 'traffic-roads', '#F00', 10)
         addRoadsLayer(map, roadGates, 'road-gates', '#000', 7.5)
 
@@ -108,27 +110,36 @@ function addMapFeatures(map) {
         mouseLeave('one-way-roads')
         mouseLeave('banned-roads')
         mouseLeave('road-gates')
-
     });
-
-
 }
-
-
-
-async function fetchRoads(roads) {
-    let totalArray = [];
-    for (let i = 0; i < roads.length; i++) {
-        totalArray.push(await getFeatures('Highways_Roadlink', roads[i]))
-    }
-    return totalArray
-}
-
 
 /**
  * 
  * @param {array} params
- */
+ **/
+function xmlRoadsFilter(totalRoads){
+    let string = '';
+    for(let i=0; i<totalRoads.length; i++){
+        string += '<ogc:PropertyIsEqualTo>' +
+        '<ogc:PropertyName>RoadName1</ogc:PropertyName>' +
+        '<ogc:Literal>'+ totalRoads[i] +'</ogc:Literal>' +
+        '</ogc:PropertyIsEqualTo>';
+    }
+    return string;
+}
+
+ /**
+ * 
+ * @param {array} params
+ **/
+async function filterRoads(totalRoadFeatures, array) {
+    return totalRoadFeatures.filter(road => array.includes(road.properties.RoadName1))
+}
+
+/**
+ * 
+ * @param {array} params
+ **/
 function convertLineStringCoords(arr) {
     for (let i = 0; i < arr.length; i++) {
         arr[i].geometry.coordinates = arr[i].geometry.coordinates[0];
@@ -136,17 +147,14 @@ function convertLineStringCoords(arr) {
     return arr;
 }
 
-function convertAndMerge(arr) {
-    let convertedArrayCoords = arr.map(x => convertLineStringCoords(x));
-    let mergedArrayCoords = [].concat(...convertedArrayCoords);
-    return mergedArrayCoords;
-}
-
-async function arrayToRoads(arr) {
-    let fetchedRoads = await fetchRoads(arr);
-    let mergedRoads = convertAndMerge(fetchedRoads);
-
-    return mergedRoads
+/**
+ * 
+ * @param {array} params
+ */
+async function filterAndConvert(totalRoadFeatures, arr) {
+    let roads = await filterRoads(totalRoadFeatures, arr);
+    let convertedArray = convertLineStringCoords(roads);
+    return convertedArray;
 }
 
 function addRoadsLayer(map, features, id, color, width) {
@@ -181,7 +189,7 @@ async function fetchData(data) {
 /**
  * Get features from the WFS.
  */
-async function getFeatures(typeName, literal) {
+async function getFeatures(typeName, totalRoads) {
     // Convert the bounds to a formatted string.
     let sw = [51.59536880893367, -0.13772922026373635],
         ne = [51.61892429114269, -0.09636146493642173];
@@ -197,10 +205,9 @@ async function getFeatures(typeName, literal) {
     xml += '<gml:coordinates>' + coords + '</gml:coordinates>';
     xml += '</gml:Box>';
     xml += '</ogc:BBOX>';
-    xml += '<ogc:PropertyIsEqualTo>';
-    xml += '<ogc:PropertyName>RoadName1</ogc:PropertyName>';
-    xml += '<ogc:Literal>' + literal + '</ogc:Literal>';
-    xml += '</ogc:PropertyIsEqualTo>';
+    xml += '<ogc:Or>';
+    xml += xmlRoadsFilter(totalRoads);
+    xml += '</ogc:Or>';
     xml += '</ogc:And>';
     xml += '</ogc:Filter>';
 
