@@ -11,7 +11,17 @@ body {
 }
 
 img {
-    height: 200px;
+    height: 125px;
     width: 250px;
-    margin-left:  12.5px;
 }
+
+h1{
+    font-size: 17.5px !important;
+    margin: 5px 17.5px;
+}
+
+p {
+    margin: 12px 17.5px;
+    text-align: justify;
+}
+
