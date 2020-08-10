@@ -1,5 +1,5 @@
 export { addMapFeatures, addRoadsLayer, API_KEY }
-import { RESIDENTIAL_ROAD_ISSUES, TRAFFIC_ROAD_ISSUES } from "./road_issues.js"
+import { RESIDENTIAL_ROAD_ISSUES, TRAFFIC_ROAD_ISSUES, ONE_WAY_ROAD_ISSUES } from "./road_issues.js"
 
 const API_KEY = '2RqLGYUE6yOw3yfoF2vw8dFQb3gkrD7R';
 const WFS_SERVICE_URL = 'https://api.os.uk/features/v1/wfs';
@@ -32,7 +32,8 @@ function addMapFeatures(map) {
         let residentialRoadsArray = ['Westbury Road', 'Brownlow Road', 'Elvendon Road', "Goring Road", "Beech Road",
             "Hardwicke Road", "Natal Road", "York Road", "Warwick Road", "Highworth Road",
             "Stanley Road", "Ollerton Road", "Evesham Road", "Shrewsbury Road", "Maidstone Road",
-            "Tewkesbury Terrace", "Russell Road", "Whittington Road", "Palmerston Road"];
+            "Tewkesbury Terrace", "Russell Road", "Whittington Road", "Palmerston Road", "Eleanor Road", "Richmond Road",
+            "Herbert Road", "Fletton Road"];
 
         let trafficRoadsArray = ['Bounds Green Road', 'Bowes Road', "Green Lanes", "High Road", "Telford Road",
             "Durnsford Road", "Powys Lane", "Wilmer Way", "Pinkham Way", "North Circular Road"];
@@ -97,18 +98,18 @@ function addMapFeatures(map) {
 
         click('residential-roads', RESIDENTIAL_ROAD_ISSUES)
         click('traffic-roads', TRAFFIC_ROAD_ISSUES)
-        click('one-way-roads')
-        click('banned-roads')
+        click('one-way-roads', ONE_WAY_ROAD_ISSUES)
+        // click('banned-roads')
         click('road-gates')
         mouseEnter('residential-roads')
         mouseEnter('traffic-roads')
         mouseEnter('one-way-roads')
-        mouseEnter('banned-roads')
+        // mouseEnter('banned-roads')
         mouseEnter('road-gates')
         mouseLeave('residential-roads')
         mouseLeave('traffic-roads')
         mouseLeave('one-way-roads')
-        mouseLeave('banned-roads')
+        // mouseLeave('banned-roads')
         mouseLeave('road-gates')
     });
 }
