@@ -1,5 +1,6 @@
 export { addMapFeatures, addRoadsLayer, API_KEY }
 import { RESIDENTIAL_ROAD_ISSUES, TRAFFIC_ROAD_ISSUES, ONE_WAY_ROAD_ISSUES, BROWNLOW_ROAD_ISSUES } from "./road_issues.js"
+import { SCHOOL_PUPIL_NUMBERS } from "./school_pupil_numbers.js"
 
 const API_KEY = '2RqLGYUE6yOw3yfoF2vw8dFQb3gkrD7R';
 const WFS_SERVICE_URL = 'https://api.os.uk/features/v1/wfs';
@@ -15,20 +16,6 @@ function addMapFeatures(map) {
 
     // Add event which waits for the map to be loaded.
     map.on('load', async function () {
-
-
-        map.on('click', function (e) {
-
-
-            let bounds = map.getBounds();
-
-            let x = bounds.getSouthWest().lat + ',' + bounds.getSouthWest().lng,
-                y = bounds.getNorthEast().lat + ',' + bounds.getNorthEast().lng;
-
-            let z = x + ' ' + y;
-            console.log(JSON.stringify(e.lngLat.wrap()))
-        });
-
         let residentialRoadsArray = ['Westbury Road', 'Elvendon Road', "Goring Road", "Beech Road",
             "Hardwicke Road", "Natal Road", "York Road", "Warwick Road", "Highworth Road",
             "Stanley Road", "Ollerton Road", "Evesham Road", "Shrewsbury Road", "Maidstone Road",
@@ -46,26 +33,30 @@ function addMapFeatures(map) {
 
         let oneWayRoadsArray = ["Queens Road", 'Sidney Avenue', "Melbourne Avenue", "Kelvin Avenue", "Belsize Avenue", "Spencer Avenue"];
 
-        let schoolsArray = ['St Thomas More Roman Catholic School', "Alexandra Park School", "Bowes Primary School",
-                "Our Lady of Lourdes Roman Catholic Primary School", "Earlham Primary School", "Bounds Green Junior and Infants Schools",
-                "Rhodes Avenue Primary School", "Broomfield School", "St Anne's Roman Catholic High School for Girls", 
-                "St Michael's Church of England Primary School", "Trinity Primary Academy School"]
+        let schoolsArray = ["St Thomas More Roman Catholic School", "Alexandra Park School", "Bowes Primary School",
+            "Our Lady of Lourdes Roman Catholic Primary School", "Earlham Primary School", "Bounds Green Junior and Infants Schools",
+            "Rhodes Avenue Primary School", "Broomfield School", "St Anne's Roman Catholic High School for Girls",
+            "St Michael's Church of England Primary School", "Trinity Primary Academy School"]
         let totalRoads = [].concat(residentialRoadsArray, trafficRoadsArray, oneWayRoadsArray, brownlowArray);
+        //fetch all required roads to reduce number of requests
         let totalRoadFeatures = await getFeatures('Highways_Roadlink', totalRoads, 'RoadName1');
-        
+       
+        //filter road categories to add as layers
         let residentialRoads = await filterAndConvert(totalRoadFeatures, residentialRoadsArray);
         let trafficRoadFeatures = await filterAndConvert(totalRoadFeatures, trafficRoadsArray)
+        //filter out Albert Road features not in the main road.
         let trafficRoads = trafficRoadFeatures
-                            .filter(feature => !albertIDstoFilter.includes(feature.properties.OBJECTID));
+            .filter(feature => !albertIDstoFilter.includes(feature.properties.OBJECTID));
         let oneWayRoads = await filterAndConvert(totalRoadFeatures, oneWayRoadsArray);
         let brownlowRoad = await filterAndConvert(totalRoadFeatures, brownlowArray);
         let roadGates = await fetchData('road_gates.json');
-        let arr = ['Primary Education', 'Secondary Education']
-        let totalSchoolFeatures = await getFeatures('Sites_FunctionalSite', arr, 'SiteFunction');
-        let affectedSchools = totalSchoolFeatures
-                                .filter(school => schoolsArray.includes(school.properties.DistinctiveName1))
 
-       
+        let schoolsFilter= ['Primary Education', 'Secondary Education']
+        let totalSchoolFeatures = await getFeatures('Sites_FunctionalSite', schoolsFilter, 'SiteFunction');
+        let affectedSchools = totalSchoolFeatures
+            .filter(school => schoolsArray.includes(school.properties.DistinctiveName1))
+
+
         addRoadsLayer(map, oneWayRoads, 'one-way-roads', '#084f9d', 5);
         addRoadsLayer(map, residentialRoads, 'residential-roads', '#FFBF00', 5);
         addRoadsLayer(map, brownlowRoad, 'brownlow-road', '#FFFF00', 10);
@@ -74,86 +65,103 @@ function addMapFeatures(map) {
         addSchoolsLayer(map, affectedSchools);
 
         const IDS = ['residential-roads', 'traffic-roads', 'one-way-roads', 'brownlow-road', 'road-gates', 'schools'];
-        click(map, 'residential-roads', RESIDENTIAL_ROAD_ISSUES);
-        click(map, 'traffic-roads', TRAFFIC_ROAD_ISSUES);
-        click(map, 'one-way-roads', ONE_WAY_ROAD_ISSUES);
-        click(map, 'brownlow-road', BROWNLOW_ROAD_ISSUES);
+        clickRoad(map, 'residential-roads', RESIDENTIAL_ROAD_ISSUES);
+        clickRoad(map, 'traffic-roads', TRAFFIC_ROAD_ISSUES);
+        clickRoad(map, 'one-way-roads', ONE_WAY_ROAD_ISSUES);
+        clickRoad(map, 'brownlow-road', BROWNLOW_ROAD_ISSUES);
         clickSchool(map, 'schools')
         IDS.map(ID => mouseEnter(map, ID));
         IDS.map(ID => mouseLeave(map, ID));
     });
 }
 
-   /**
-     * 
-     * @param {object} params
-     */
-    function click(map, id, issueObject) {
-        // When a click event occurs on a feature in the 'roads' layer, open a popup at
-        // the location of the click, with description HTML from its properties.
-        map.on('click', id, function (e) {
-            let html = "<h1>" + e.features[0].properties.RoadName1 + "</h1><p>" + 
+/**
+  * 
+  * @param {object} params
+  */
+function clickRoad(map, id, issueObject) {
+    // When a click event occurs on a feature in the 'roads' layer, open a popup at
+    // the location of the click, with description HTML from its properties.
+    map.on('click', id, function (e) {
+        let html = "<h1>" + e.features[0].properties.RoadName1 + "</h1><p>" +
             issueObject[e.features[0].properties.RoadName1] + "</p>"
-            if (id === 'road-gates') {
-                html = e.features[0].properties.Name
-            }
-            new mapboxgl.Popup({maxWidth: "300px"})
-                .setLngLat(e.lngLat)
-                .setHTML(html)
-                .addTo(map);
-        });
-    }
+        if (id === 'road-gates') {
+            html = e.features[0].properties.Name
+        }
+        new mapboxgl.Popup({ maxWidth: "300px" })
+            .setLngLat(e.lngLat)
+            .setHTML(html)
+            .addTo(map);
+    });
+}
 
-    function clickSchool(map, id) {
-        // When a click event occurs on a feature in the 'roads' layer, open a popup at
-        // the location of the click, with description HTML from its properties.
-        map.on('click', id, function (e) {
-            let html = "<h1>" + e.features[0].properties.DistinctiveName1 + "</h1><p>"; 
-            // issueObject[e.features[0].properties.RoadName1] + "</p>"
-            // if (id === 'road-gates') {
-            //     html = e.features[0].properties.Name
-            // }
-            new mapboxgl.Popup({maxWidth: "300px"})
-                .setLngLat(e.lngLat)
-                .setHTML(html)
-                .addTo(map);
-        });
-    }
+function clickSchool(map, id) {
+    // When a click event occurs on a feature in the 'roads' layer, open a popup at
+    // the location of the click, with description HTML from its properties.
+    map.on('click', id, function (e) {
+        let schoolCentroid = turf.centroid(e.features[0])
+        let mainRoadData = map.getSource('traffic-roads')._data.features
+        let minDistance = schoolToMainRoadDistance(schoolCentroid, mainRoadData)
+        let schoolName = e.features[0].properties.DistinctiveName1 
 
-    function mouseEnter(map, id) {
-        // Change the cursor to a pointer when the mouse is over the 'roads' layer.
-        map.on('mouseenter', id, function () {
-            map.getCanvas().style.cursor = 'pointer';
-        });
-    }
+        
+        let html = "<h1>" + schoolName + "</h1>" +
+            "<p>Average distance to main road: " + minDistance.toFixed(2) + "m</p>" +
+            "<p>Number of pupils affected: " + SCHOOL_PUPIL_NUMBERS[schoolName] + "</p>"
 
-    function mouseLeave(map, id) {
-        // Change the cursor back to a pointer when it leaves the 'roads' layer.
-        map.on('mouseleave', id, function () {
-            map.getCanvas().style.cursor = '';
-        });
+        new mapboxgl.Popup({ maxWidth: "350px", className: "popup" })
+            .setLngLat(e.lngLat)
+            .setHTML(html)
+            .addTo(map);
+    });
+}
+
+function mouseEnter(map, id) {
+    // Change the cursor to a pointer when the mouse is over the 'roads' layer.
+    map.on('mouseenter', id, function () {
+        map.getCanvas().style.cursor = 'pointer';
+    });
+}
+
+function mouseLeave(map, id) {
+    // Change the cursor back to a pointer when it leaves the 'roads' layer.
+    map.on('mouseleave', id, function () {
+        map.getCanvas().style.cursor = '';
+    });
+}
+
+function schoolToMainRoadDistance(schoolCentroid, mainRoadData) {
+    //approx distance of the sw and ne coordinates, starting point to calculate minimun distances
+    let minDistance = 2500;
+    for (let i = 0; i < mainRoadData.length; i++) {
+        let schoolToRoadDistance = turf.pointToLineDistance(schoolCentroid, mainRoadData[i], { units: 'meters' })
+        if (schoolToRoadDistance < minDistance) {
+            minDistance = schoolToRoadDistance;
+        }
     }
+    return minDistance;
+}
 
 /**
  * 
  * @param {array} params
  **/
-function xmlFilter(array, propertyName){
+function xmlFilter(array, propertyName) {
     let string = '';
-    for(let i=0; i<array.length; i++){
+    for (let i = 0; i < array.length; i++) {
         string += '<ogc:PropertyIsEqualTo>' +
-        '<ogc:PropertyName>'+ propertyName +'</ogc:PropertyName>' +
-        '<ogc:Literal>'+ array[i] +'</ogc:Literal>' +
-        '</ogc:PropertyIsEqualTo>';
+            '<ogc:PropertyName>' + propertyName + '</ogc:PropertyName>' +
+            '<ogc:Literal>' + array[i] + '</ogc:Literal>' +
+            '</ogc:PropertyIsEqualTo>';
     }
     return string;
 }
 
 
- /**
- * 
- * @param {array} params
- **/
+/**
+* 
+* @param {array} params
+**/
 async function filterRoads(totalRoadFeatures, array) {
     return totalRoadFeatures.filter(road => array.includes(road.properties.RoadName1))
 }
@@ -198,7 +206,7 @@ function addRoadsLayer(map, features, id, color, width) {
     });
 }
 
-function addSchoolsLayer(map, features){
+function addSchoolsLayer(map, features) {
     map.addLayer({
         "id": 'schools',
         "type": "fill",
@@ -212,6 +220,7 @@ function addSchoolsLayer(map, features){
         "layout": {},
         "paint": {
             "fill-color": "#808080",
+            "fill-outline-color": "#000",
             "fill-opacity": 0.8
         }
     });

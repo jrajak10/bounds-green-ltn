@@ -25,3 +25,16 @@ p {
     text-align: justify;
 }
 
+.popup {
+    text-align: left;
+  }
+
+.popup h1 {
+    font-size: 15px !important;
+}
+.popup p{
+    text-align: left;
+    margin: 0px 17.5px;
+    font-size: 14px;
+}
+
