@@ -187,7 +187,9 @@ export const ONE_WAY_ROAD_ISSUES = {
 }
 
 export const BROWNLOW_ROAD_ISSUES = {
-    "Brownlow Road": "Although Brownlow Road will see a decline in traffic, residents of Brownlow Road would " +
+    "Brownlow Road": "<b>Point closure on Brownlow Road for all vehicles except for buses, emergency and service " +
+                     "vehicles.</b><br><br>" +
+                     "Although Brownlow Road will see a decline in traffic, residents of Brownlow Road would " +
                      "need to find parking elsewhere, as they won't be allowed to drive through their own road. " +
                      "This could result in a potential drop in property prices on this road."
 }
