@@ -40,7 +40,7 @@ function addMapFeatures(map) {
         let totalRoads = [].concat(residentialRoadsArray, trafficRoadsArray, oneWayRoadsArray, brownlowArray);
         //fetch all required roads to reduce number of requests
         let totalRoadFeatures = await getFeatures('Highways_Roadlink', totalRoads, 'RoadName1');
-       
+      
         //filter road categories to add as layers
         let residentialRoads = await filterAndConvert(totalRoadFeatures, residentialRoadsArray);
         let trafficRoadFeatures = await filterAndConvert(totalRoadFeatures, trafficRoadsArray)
@@ -55,7 +55,7 @@ function addMapFeatures(map) {
         let totalSchoolFeatures = await getFeatures('Sites_FunctionalSite', schoolsFilter, 'SiteFunction');
         let affectedSchools = totalSchoolFeatures
             .filter(school => schoolsArray.includes(school.properties.DistinctiveName1))
-
+        console.log(affectedSchools)
 
         addRoadsLayer(map, oneWayRoads, 'one-way-roads', '#084f9d', 5);
         addRoadsLayer(map, residentialRoads, 'residential-roads', '#FFBF00', 5);
@@ -156,7 +156,6 @@ function xmlFilter(array, propertyName) {
     }
     return string;
 }
-
 
 /**
 * 
