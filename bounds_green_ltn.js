@@ -1,7 +1,5 @@
 import { addMapFeatures, API_KEY } from "./bounds_green_ltn_functions.js"
 
-
-
 let tileServiceUrl = 'https://api.os.uk/maps/raster/v1/zxy';
 
 let vectorUrl = 'https://api.os.uk/maps/vector/v1/vts';
@@ -39,7 +37,6 @@ let map = new mapboxgl.Map({
         }
     }
 });
-
 
 
 addMapFeatures(map)

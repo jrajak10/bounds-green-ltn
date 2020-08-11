@@ -3,12 +3,88 @@ body {
     padding:0; 
 }
 
+.map-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 500px !important;
+    width: 300px !important;
+    padding: 20px;
+    margin: 0px 10px;
+}
+
+.map-overlay-inner {
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: #FFF;
+    padding: 20px;
+    opacity: 0.9;
+    border-radius: 4px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.10);   
+}
+
 #map { 
     position:absolute; 
     top:0; 
     bottom:0; 
     width:100%; 
 }
+
+#key{
+    padding-top: 20px;
+}
+
+.entry {
+    display: flex;
+    flex-direction: row;
+    font-size: 14px !important;
+    margin-left: 17.5px;
+    margin-bottom: 15px;
+
+}
+
+span {
+    height: 5px;
+    width: 20px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    margin-top: 5px;
+}
+
+#instructions{
+    font-size: 14px !important;
+}
+#traffic-road{
+    background-color: #F00;
+    border: solid 1px #000;
+}
+
+#residential-road{
+    background-color: #FFBF00;
+    border: solid 1px #000;
+}
+
+#one-way-road{
+    background-color: #084f9d;
+}
+
+#special-road{
+    background-color: #FFFF00;
+    border: solid 1px #000;
+}
+
+#road-gate{
+    background-color: #000;
+}
+
+#schools{
+    height: 20px;
+    border: solid 1px #000;
+    margin-top: 5px;
+    background-color: #808080;
+}
+
+
+
 
 img {
     height: 125px;

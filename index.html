@@ -13,6 +13,39 @@
 
 <body>
     <div id="map"></div>
+    <div class="map-overlay">
+        <div class="map-overlay-inner">
+            <h1>Impact of proposed LTN Scheme at Bowes</h1>
+            <p id="instructions">
+                Click on a highlighted street or school to see how it will
+                be impacted under the new LTN proposals.
+            </p>
+            <div id="key">
+                <div class="entry">
+                    <span class="road-color" id="traffic-road"></span>
+                    Roads affected by increased traffic
+                </div>
+                <div class="entry">
+                    <span class="road-color" id="residential-road"></span>
+                    Residential roads affected
+                </div>
+                <div class="entry">
+                    <span class="road-color" id="one-way-road"></span>
+                    One way roads affected
+                </div>
+                <div class="entry">
+                    <span class="road-color" id="special-road"></span>
+                    Roads for special use
+                </div>
+                <div class="entry">
+                    <span id="road-gate"></span>Proposed road closure
+                </div>
+                <div class="entry" id="schools-entry">
+                        <span id="schools"></span>Schools affected by<br>increased pollution
+                    </div>
+            </div>
+        </div>
+    </div>
     <script src="https://labs.os.uk/public/os-api-branding/v0.1.0/os-api-branding.js"></script>
     <script src="https://api.tiles.mapbox.com/mapbox-gl-js/v1.11.0/mapbox-gl.js"></script>
     <script src="https://npmcdn.com/@turf/turf/turf.min.js"></script>
