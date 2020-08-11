@@ -46,8 +46,12 @@ function addMapFeatures(map) {
 
         let oneWayRoadsArray = ["Queens Road", 'Sidney Avenue', "Melbourne Avenue", "Kelvin Avenue", "Belsize Avenue", "Spencer Avenue"];
 
+        let schoolsArray = ['St Thomas More Roman Catholic School', "Alexandra Park School", "Bowes Primary School",
+                "Our Lady of Lourdes Roman Catholic Primary School", "Earlham Primary School", "Bounds Green Junior and Infants Schools",
+                "Rhodes Avenue Primary School", "Broomfield School", "St Anne's Roman Catholic High School for Girls", 
+                "St Michael's Church of England Primary School", "Trinity Primary Academy School"]
         let totalRoads = [].concat(residentialRoadsArray, trafficRoadsArray, oneWayRoadsArray, brownlowArray);
-        let totalRoadFeatures = await getFeatures('Highways_Roadlink', totalRoads);
+        let totalRoadFeatures = await getFeatures('Highways_Roadlink', totalRoads, 'RoadName1');
         
         let residentialRoads = await filterAndConvert(totalRoadFeatures, residentialRoadsArray);
         let trafficRoadFeatures = await filterAndConvert(totalRoadFeatures, trafficRoadsArray)
@@ -56,80 +60,95 @@ function addMapFeatures(map) {
         let oneWayRoads = await filterAndConvert(totalRoadFeatures, oneWayRoadsArray);
         let brownlowRoad = await filterAndConvert(totalRoadFeatures, brownlowArray);
         let roadGates = await fetchData('road_gates.json');
+        let arr = ['Primary Education', 'Secondary Education']
+        let totalSchoolFeatures = await getFeatures('Sites_FunctionalSite', arr, 'SiteFunction');
+        let affectedSchools = totalSchoolFeatures
+                                .filter(school => schoolsArray.includes(school.properties.DistinctiveName1))
 
-        addRoadsLayer(map, oneWayRoads, 'one-way-roads', '#084f9d', 5)
-        addRoadsLayer(map, residentialRoads, 'residential-roads', '#FFBF00', 5)
-        addRoadsLayer(map, brownlowRoad, 'brownlow-road', '#FFFF00', 10)
-        addRoadsLayer(map, trafficRoads, 'traffic-roads', '#F00', 10)
-        addRoadsLayer(map, roadGates, 'road-gates', '#000', 7.5)
+       
+        addRoadsLayer(map, oneWayRoads, 'one-way-roads', '#084f9d', 5);
+        addRoadsLayer(map, residentialRoads, 'residential-roads', '#FFBF00', 5);
+        addRoadsLayer(map, brownlowRoad, 'brownlow-road', '#FFFF00', 10);
+        addRoadsLayer(map, trafficRoads, 'traffic-roads', '#F00', 10);
+        addRoadsLayer(map, roadGates, 'road-gates', '#000', 7.5);
+        addSchoolsLayer(map, affectedSchools);
 
+        const IDS = ['residential-roads', 'traffic-roads', 'one-way-roads', 'brownlow-road', 'road-gates', 'schools'];
+        click(map, 'residential-roads', RESIDENTIAL_ROAD_ISSUES);
+        click(map, 'traffic-roads', TRAFFIC_ROAD_ISSUES);
+        click(map, 'one-way-roads', ONE_WAY_ROAD_ISSUES);
+        click(map, 'brownlow-road', BROWNLOW_ROAD_ISSUES);
+        clickSchool(map, 'schools')
+        IDS.map(ID => mouseEnter(map, ID));
+        IDS.map(ID => mouseLeave(map, ID));
+    });
+}
 
-        /**
+   /**
      * 
      * @param {object} params
      */
-        function click(id, issueObject) {
-            // When a click event occurs on a feature in the 'roads' layer, open a popup at
-            // the location of the click, with description HTML from its properties.
-            map.on('click', id, function (e) {
-                let html = "<h1>" + e.features[0].properties.RoadName1 + "</h1><p>" + 
-                issueObject[e.features[0].properties.RoadName1] + "</p>"
-                if (id === 'road-gates') {
-                    html = e.features[0].properties.Name
-                }
-                new mapboxgl.Popup({maxWidth: "300px"})
-                    .setLngLat(e.lngLat)
-                    .setHTML(html)
-                    .addTo(map);
-            });
-        }
+    function click(map, id, issueObject) {
+        // When a click event occurs on a feature in the 'roads' layer, open a popup at
+        // the location of the click, with description HTML from its properties.
+        map.on('click', id, function (e) {
+            let html = "<h1>" + e.features[0].properties.RoadName1 + "</h1><p>" + 
+            issueObject[e.features[0].properties.RoadName1] + "</p>"
+            if (id === 'road-gates') {
+                html = e.features[0].properties.Name
+            }
+            new mapboxgl.Popup({maxWidth: "300px"})
+                .setLngLat(e.lngLat)
+                .setHTML(html)
+                .addTo(map);
+        });
+    }
 
-        function mouseEnter(id) {
-            // Change the cursor to a pointer when the mouse is over the 'roads' layer.
-            map.on('mouseenter', id, function () {
-                map.getCanvas().style.cursor = 'pointer';
-            });
-        }
+    function clickSchool(map, id) {
+        // When a click event occurs on a feature in the 'roads' layer, open a popup at
+        // the location of the click, with description HTML from its properties.
+        map.on('click', id, function (e) {
+            let html = "<h1>" + e.features[0].properties.DistinctiveName1 + "</h1><p>"; 
+            // issueObject[e.features[0].properties.RoadName1] + "</p>"
+            // if (id === 'road-gates') {
+            //     html = e.features[0].properties.Name
+            // }
+            new mapboxgl.Popup({maxWidth: "300px"})
+                .setLngLat(e.lngLat)
+                .setHTML(html)
+                .addTo(map);
+        });
+    }
 
-        function mouseLeave(id) {
-            // Change the cursor back to a pointer when it leaves the 'roads' layer.
-            map.on('mouseleave', id, function () {
-                map.getCanvas().style.cursor = '';
-            });
-        }
+    function mouseEnter(map, id) {
+        // Change the cursor to a pointer when the mouse is over the 'roads' layer.
+        map.on('mouseenter', id, function () {
+            map.getCanvas().style.cursor = 'pointer';
+        });
+    }
 
-        click('residential-roads', RESIDENTIAL_ROAD_ISSUES);
-        click('traffic-roads', TRAFFIC_ROAD_ISSUES);
-        click('one-way-roads', ONE_WAY_ROAD_ISSUES);
-        click('brownlow-road', BROWNLOW_ROAD_ISSUES);
-        click('road-gates');
-        mouseEnter('residential-roads');
-        mouseEnter('traffic-roads');
-        mouseEnter('one-way-roads');
-        mouseEnter('brownlow-road');
-        mouseEnter('road-gates');
-        mouseLeave('residential-roads');
-        mouseLeave('traffic-roads');
-        mouseLeave('one-way-roads');
-        mouseLeave('brownlow-road');
-        mouseLeave('road-gates');
-    });
-}
+    function mouseLeave(map, id) {
+        // Change the cursor back to a pointer when it leaves the 'roads' layer.
+        map.on('mouseleave', id, function () {
+            map.getCanvas().style.cursor = '';
+        });
+    }
 
 /**
  * 
  * @param {array} params
  **/
-function xmlRoadsFilter(totalRoads){
+function xmlFilter(array, propertyName){
     let string = '';
-    for(let i=0; i<totalRoads.length; i++){
+    for(let i=0; i<array.length; i++){
         string += '<ogc:PropertyIsEqualTo>' +
-        '<ogc:PropertyName>RoadName1</ogc:PropertyName>' +
-        '<ogc:Literal>'+ totalRoads[i] +'</ogc:Literal>' +
+        '<ogc:PropertyName>'+ propertyName +'</ogc:PropertyName>' +
+        '<ogc:Literal>'+ array[i] +'</ogc:Literal>' +
         '</ogc:PropertyIsEqualTo>';
     }
     return string;
 }
+
 
  /**
  * 
@@ -179,6 +198,27 @@ function addRoadsLayer(map, features, id, color, width) {
     });
 }
 
+function addSchoolsLayer(map, features){
+    map.addLayer({
+        "id": 'schools',
+        "type": "fill",
+        "source": {
+            "type": "geojson",
+            "data": {
+                "type": "FeatureCollection",
+                "features": features
+            }
+        },
+        "layout": {},
+        "paint": {
+            "fill-color": "#808080",
+            "fill-opacity": 0.8
+        }
+    });
+
+}
+
+
 //fetches json data from json files
 async function fetchData(data) {
     let fetchedData = await fetch(data);
@@ -192,7 +232,7 @@ async function fetchData(data) {
 /**
  * Get features from the WFS.
  */
-async function getFeatures(typeName, totalRoads) {
+async function getFeatures(typeName, array, propertyName) {
     // Convert the bounds to a formatted string.
     let sw = [51.59536880893367, -0.13772922026373635],
         ne = [51.61892429114269, -0.09636146493642173];
@@ -209,10 +249,11 @@ async function getFeatures(typeName, totalRoads) {
     xml += '</gml:Box>';
     xml += '</ogc:BBOX>';
     xml += '<ogc:Or>';
-    xml += xmlRoadsFilter(totalRoads);
+    xml += xmlFilter(array, propertyName)
     xml += '</ogc:Or>';
     xml += '</ogc:And>';
     xml += '</ogc:Filter>';
+
 
     // Define (WFS) parameters object.
     let startIndex = 0;
