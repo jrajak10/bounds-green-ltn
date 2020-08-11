@@ -1,5 +1,5 @@
 export { addMapFeatures, addRoadsLayer, API_KEY }
-import { RESIDENTIAL_ROAD_ISSUES, TRAFFIC_ROAD_ISSUES, ONE_WAY_ROAD_ISSUES } from "./road_issues.js"
+import { RESIDENTIAL_ROAD_ISSUES, TRAFFIC_ROAD_ISSUES, ONE_WAY_ROAD_ISSUES, BROWNLOW_ROAD_ISSUES } from "./road_issues.js"
 
 const API_KEY = '2RqLGYUE6yOw3yfoF2vw8dFQb3gkrD7R';
 const WFS_SERVICE_URL = 'https://api.os.uk/features/v1/wfs';
@@ -29,36 +29,37 @@ function addMapFeatures(map) {
             console.log(JSON.stringify(e.lngLat.wrap()))
         });
 
-        let residentialRoadsArray = ['Westbury Road', 'Brownlow Road', 'Elvendon Road', "Goring Road", "Beech Road",
+        let residentialRoadsArray = ['Westbury Road', 'Elvendon Road', "Goring Road", "Beech Road",
             "Hardwicke Road", "Natal Road", "York Road", "Warwick Road", "Highworth Road",
             "Stanley Road", "Ollerton Road", "Evesham Road", "Shrewsbury Road", "Maidstone Road",
             "Tewkesbury Terrace", "Russell Road", "Whittington Road", "Palmerston Road", "Eleanor Road", "Richmond Road",
             "Herbert Road", "Fletton Road"];
 
+        let brownlowArray = ["Brownlow Road"];
+
+        // Creating a separate array of OBJECTIDS on Albert Road but not on the main road 
+        // to filter out.
+        let albertIDstoFilter = [3398812, 3525624, 3525625, 3480230, 4633431, 4926347, 3377842, 3559461]
+
         let trafficRoadsArray = ['Bounds Green Road', 'Bowes Road', "Green Lanes", "High Road", "Telford Road",
-            "Durnsford Road", "Powys Lane", "Wilmer Way", "Pinkham Way", "North Circular Road"];
+            "Durnsford Road", "Albert Road", "Powys Lane", "Wilmer Way", "Pinkham Way", "North Circular Road"];
 
         let oneWayRoadsArray = ["Queens Road", 'Sidney Avenue', "Melbourne Avenue", "Kelvin Avenue", "Belsize Avenue", "Spencer Avenue"];
 
-        let totalRoads = [].concat(residentialRoadsArray, trafficRoadsArray, oneWayRoadsArray)
+        let totalRoads = [].concat(residentialRoadsArray, trafficRoadsArray, oneWayRoadsArray, brownlowArray);
         let totalRoadFeatures = await getFeatures('Highways_Roadlink', totalRoads);
         
         let residentialRoads = await filterAndConvert(totalRoadFeatures, residentialRoadsArray);
-        let trafficRoads = await filterAndConvert(totalRoadFeatures, trafficRoadsArray);
+        let trafficRoadFeatures = await filterAndConvert(totalRoadFeatures, trafficRoadsArray)
+        let trafficRoads = trafficRoadFeatures
+                            .filter(feature => !albertIDstoFilter.includes(feature.properties.OBJECTID));
         let oneWayRoads = await filterAndConvert(totalRoadFeatures, oneWayRoadsArray);
-        
-
-        // let brownlow = await getFeatures('Highways_Roadlink', 'Brownlow Road');
-
-        // let bannedRoads = [[brownlow[1]], [brownlow[5]], [brownlow[7]], [brownlow[15]], [brownlow[16]]]
-        // let mergedBannedRoads = convertAndMerge(bannedRoads);
-
-
+        let brownlowRoad = await filterAndConvert(totalRoadFeatures, brownlowArray);
         let roadGates = await fetchData('road_gates.json');
 
         addRoadsLayer(map, oneWayRoads, 'one-way-roads', '#084f9d', 5)
         addRoadsLayer(map, residentialRoads, 'residential-roads', '#FFBF00', 5)
-        // addRoadsLayer(map, mergedBannedRoads, 'banned-roads', '#FFA500', 10)
+        addRoadsLayer(map, brownlowRoad, 'brownlow-road', '#FFFF00', 10)
         addRoadsLayer(map, trafficRoads, 'traffic-roads', '#F00', 10)
         addRoadsLayer(map, roadGates, 'road-gates', '#000', 7.5)
 
@@ -71,7 +72,8 @@ function addMapFeatures(map) {
             // When a click event occurs on a feature in the 'roads' layer, open a popup at
             // the location of the click, with description HTML from its properties.
             map.on('click', id, function (e) {
-                let html = "<h1>" + e.features[0].properties.RoadName1 + "</h1><p>" + issueObject[e.features[0].properties.RoadName1] + "</p>"
+                let html = "<h1>" + e.features[0].properties.RoadName1 + "</h1><p>" + 
+                issueObject[e.features[0].properties.RoadName1] + "</p>"
                 if (id === 'road-gates') {
                     html = e.features[0].properties.Name
                 }
@@ -96,21 +98,21 @@ function addMapFeatures(map) {
             });
         }
 
-        click('residential-roads', RESIDENTIAL_ROAD_ISSUES)
-        click('traffic-roads', TRAFFIC_ROAD_ISSUES)
-        click('one-way-roads', ONE_WAY_ROAD_ISSUES)
-        // click('banned-roads')
-        click('road-gates')
-        mouseEnter('residential-roads')
-        mouseEnter('traffic-roads')
-        mouseEnter('one-way-roads')
-        // mouseEnter('banned-roads')
-        mouseEnter('road-gates')
-        mouseLeave('residential-roads')
-        mouseLeave('traffic-roads')
-        mouseLeave('one-way-roads')
-        // mouseLeave('banned-roads')
-        mouseLeave('road-gates')
+        click('residential-roads', RESIDENTIAL_ROAD_ISSUES);
+        click('traffic-roads', TRAFFIC_ROAD_ISSUES);
+        click('one-way-roads', ONE_WAY_ROAD_ISSUES);
+        click('brownlow-road', BROWNLOW_ROAD_ISSUES);
+        click('road-gates');
+        mouseEnter('residential-roads');
+        mouseEnter('traffic-roads');
+        mouseEnter('one-way-roads');
+        mouseEnter('brownlow-road');
+        mouseEnter('road-gates');
+        mouseLeave('residential-roads');
+        mouseLeave('traffic-roads');
+        mouseLeave('one-way-roads');
+        mouseLeave('brownlow-road');
+        mouseLeave('road-gates');
     });
 }
 

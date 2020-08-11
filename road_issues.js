@@ -27,6 +27,11 @@ export const TRAFFIC_ROAD_ISSUES = {
         "and fuel spent. This road is already congested in the evening rush hour, and will only be " +
         "more so.<br><br>Furthermore, the increase in traffic will result in an increase in pollution, which will " +
         "affect students and staff in the nearby schools - Alexandra Park School and Rhodes Avenue School.",
+    "Albert Road": "Residents living in the majority of the affected roads would need to drive all the way round " +
+        "Bounds Green Road/A406 in order to get back to their homes, resulting in increased journey times " +
+        "and fuel spent. This road is already congested in the evening rush hour, and will only be " +
+        "more so.<br><br>Furthermore, the increase in traffic will result in an increase in pollution, which will " +
+        "affect students and staff in the nearby schools - Alexandra Park School and Rhodes Avenue School.",
     "Powys Lane": "People travelling through Powys Lane wishing to travel towards Bounds Green/Muswell Hill would have to " +
         "drive through an already congested North Circular Road in order to get there, instead of going straight " +
         "through Brownlow Road, resulting in an increase in journey time and fuel used.",
@@ -53,7 +58,6 @@ export const RESIDENTIAL_ROAD_ISSUES = {
         "and rely on cars for travelling. This proposal will also make roads less accessible for disabled people. " +
         "In addition, there is a good chance house prices would drop as people are less likely to buy in areas " +
         "if they are unable to drive to and from home.",
-    "Brownlow Road": "Test",
     "Elvendon Road": "With the proposed banning of residential vehicles on Brownlow Road, combined with the closure of the " +
         "bottom of Westbury Road, residents living here will be 'trapped', and unable to drive to and from " +
         "their homes. There has been no clarity over how this issue is to be addressed.<br><br>Many residents are elderly, " +
@@ -180,4 +184,10 @@ export const ONE_WAY_ROAD_ISSUES = {
         "in order to get to the A406, as Palmerston Road is closed off. Their cars will contribute to increased " +
         "traffic and pollution in Green Lanes (where pollution levels are already high). The traffic lights at " +
         "Green Lanes means that their journey times will increase, and result in more fuel spent as well.",
+}
+
+export const BROWNLOW_ROAD_ISSUES = {
+    "Brownlow Road": "Although Brownlow Road will see a decline in traffic, residents of Brownlow Road would " +
+                     "need to find parking elsewhere, as they won't be allowed to drive through their own road. " +
+                     "This could result in a potential drop in property prices on this road."
 }
