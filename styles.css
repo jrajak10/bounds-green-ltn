@@ -138,9 +138,6 @@ a {
 a:hover {
     color: #9d084f;
 }
-.options-bar{
-    display: none;
-}
 
 .road-popup h1{
     font-size: 17.5px !important;
@@ -234,5 +231,9 @@ a:hover {
     img {
         height: 125px;
         width: 250px;
+    }
+
+    .options-bar{
+        display: none;
     }
 }
