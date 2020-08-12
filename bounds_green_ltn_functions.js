@@ -18,13 +18,6 @@ function addMapFeatures(map) {
     // Add event which waits for the map to be loaded.
     map.on('load', async function () {
 
-        map.on('click', function (e) {
-
-            let arr = [];
-            arr.push(e.lngLat.lng, e.lngLat.lat)
-
-            console.log("[" + arr.toString() + "]")
-        });
         let residentialRoadsArray = ['Westbury Road', 'Elvendon Road', "Goring Road", "Beech Road",
             "Hardwicke Road", "Natal Road", "York Road", "Warwick Road", "Highworth Road",
             "Stanley Road", "Ollerton Road", "Evesham Road", "Shrewsbury Road", "Maidstone Road",
@@ -65,7 +58,9 @@ function addMapFeatures(map) {
         let affectedSchools = totalSchoolFeatures
             .filter(school => schoolsArray.includes(school.properties.DistinctiveName1))
 
-        
+    
+           
+
     addMarkers(map, EAST_ROADS, 'east-marker');
     addMarkers(map, WEST_ROADS, 'west-marker');
     addMarkers(map, SOUTH_ROADS, 'south-marker');
@@ -86,7 +81,28 @@ function addMapFeatures(map) {
     clickSchool(map, 'schools')
     IDS.map(ID => mouseEnter(map, ID));
     IDS.map(ID => mouseLeave(map, ID));
+
+    toggleOptions('key', 'show', 'hide')
 });
+}
+
+function toggleOptions(key, show, hide) {
+    document.getElementById('toggle').addEventListener('click', function () {
+        let list = document.getElementById(key)
+        let showButton = document.getElementById(show)
+        let hideButton = document.getElementById(hide)
+
+        if (list.style.display === 'block') {
+            list.style.display = 'none'
+            showButton.style.display = 'block'
+            hideButton.style.display = 'none'
+        }
+        else {
+            list.style.display = "block";
+            showButton.style.display = 'none'
+            hideButton.style.display = 'block'
+        }
+    });
 }
 
 function addMarkers(map, arr, markerClass){
@@ -127,7 +143,6 @@ function clickSchool(map, id) {
         let mainRoadData = map.getSource('traffic-roads')._data.features
         let minDistance = schoolToMainRoadDistance(schoolCentroid, mainRoadData)
         let schoolName = e.features[0].properties.DistinctiveName1
-
 
         let html = "<h1>" + schoolName + "</h1>" +
             "<p>Average distance to main road: " + minDistance.toFixed(2) + "m</p>" +
