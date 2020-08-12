@@ -78,6 +78,7 @@ function addMapFeatures(map) {
     clickRoad(map, 'traffic-roads', TRAFFIC_ROAD_ISSUES);
     clickRoad(map, 'one-way-roads', ONE_WAY_ROAD_ISSUES);
     clickRoad(map, 'brownlow-road', BROWNLOW_ROAD_ISSUES);
+    clickRoad(map, 'road-gates', '');
     clickSchool(map, 'schools')
     IDS.map(ID => mouseEnter(map, ID));
     IDS.map(ID => mouseLeave(map, ID));
