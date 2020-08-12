@@ -3,7 +3,8 @@
 export const TRAFFIC_ROAD_ISSUES = {
     "Bounds Green Road": "Drivers unable to turn right into Brownlow Road would need to continue straight through " +
         "Bounds Green Road. The increase in traffic will result in an increase in pollution, which " +
-        "will affect staff and students in the nearby schools - Bounds Green School and Trinity Primary Academy",
+        "will affect staff and students in the nearby schools - Bounds Green School, " +
+        "St Michael's Church of England Primary School and Trinity Primary Academy",
     "Bowes Road": "<img src = \"bowes_road.jpg\"><br>Bowes Road will see an increase in congestion if the LTN goes ahead. In addition, the increase " +
         "in vehicles driving through will result in an increase in air and noise pollution, which will affect the " +
         "schools close by - Bowes School and Our Lady of Lourdes School.<br><br>Furthermore, Ambulances travelling to and from " +
@@ -12,14 +13,16 @@ export const TRAFFIC_ROAD_ISSUES = {
         "is a matter of life and death.",
     "Green Lanes": "Traffic will increase as a result of people driving Nortbound towards Southgate and Palmers Green, and " +
         "Southbound towards Bounds Green and Muswell Hill, but are unable to do so using Brownlow Road. According to a " +
-        "<a href = \"https://www.haringey.gov.uk/sites/haringeygovuk/files/green_lane_study_report_final.pdf\">study</a>, " +
+        "<a href = \"https://www.haringey.gov.uk/sites/haringeygovuk/files/green_lane_study_report_final.pdf\" target=\"_blank\">study</a>, " +
         "nitrogen dioxide levels already exceeds the EU limit in this area.<br><br>Furthermore, buses will experience more delays " +
         "and significantly longer journey times due to the increase in traffic.",
     "High Road": "<img src = \"high_road.jpg\"><br>Traffic will increase as a result of people driving Nortbound towards Southgate and Palmers Green, and " +
         "Southbound towards Bounds Green and Muswell Hill, but are unable to do so using Brownlow Road. According to a " +
-        "<a href = \"https://www.haringey.gov.uk/sites/haringeygovuk/files/green_lane_study_report_final.pdf\">study</a>, " +
+        "<a href = \"https://www.haringey.gov.uk/sites/haringeygovuk/files/green_lane_study_report_final.pdf\" target=\"_blank\">study</a>, " +
         "Nitrogen dioxide levels already exceeds the EU limit in this area.",
-    "Telford Road": "<img src = \"telford_road.jpg\"><br>Telford Road (part of the A406) was already ranked as the 6th most congested road in the UK, with an estimated 43 hours lost per year. " +
+    "Telford Road": "<img src = \"telford_road.jpg\"><br>Telford Road (part of the A406) was already ranked as the " +
+        "<a href=\"https://www.bbc.co.uk/news/uk-england-47175799\" target=\"_blank\">" +
+        "6th most congested road in the UK</a>, with an estimated 43 hours lost per year. " +
         "Closing off Brownlow Road for vehicles will only increase the congestion, and journey times for those driving " +
         "through the A406, many of whom are transporting goods across the country.",
     "Durnsford Road": "Residents living in the majority of the affected roads would need to drive all the way round " +
@@ -38,11 +41,14 @@ export const TRAFFIC_ROAD_ISSUES = {
     "Wilmer Way": "There will be an increase in traffic from people driving towards Bounds Green, Muswell Hill and Southgate, but unable to " +
         "use Brownlow Road. This will also result in an increase in pollution, affecting students and staff in " +
         "Broomfield School",
-    "Pinkham Way": "<img src = \"pinkham_way.jpg\"><br>Pinkham Way (part of the A406) was already ranked as the 6th most congested road in the UK, with an estimated 43 hours lost per year. " +
+    "Pinkham Way": "<img src = \"pinkham_way.jpg\"><br>Pinkham Way (part of the A406) was already ranked as the " +
+        "<a href=\"https://www.bbc.co.uk/news/uk-england-47175799\" target=\"_blank\">" +
+        "6th most congested road in the UK</a>, with an estimated 43 hours lost per year. " +
         "Closing off Brownlow Road for vehicles will only increase the congestion, and journey times for those driving " +
         "through the A406, many of whom are transporting goods across the country.",
-    "North Circular Road": "North Circular Road (A406) between East Finchley and Edmonton was already ranked as the 6th " +
-        "most congested road in the UK, with an estimated 43 hours lost per year. " +
+    "North Circular Road": "North Circular Road (A406) between East Finchley and Edmonton was already ranked as the " +
+        "<a href=\"https://www.bbc.co.uk/news/uk-england-47175799\" target=\"_blank\">" +
+        "6th most congested road in the UK</a>, with an estimated 43 hours lost per year. " +
         "Closing off Brownlow Road for vehicles will only increase the congestion, and journey times for those driving " +
         "through the A406, many of whom are transporting goods across the country. " +
         "<br><br>Furthermore, Ambulances travelling to and from " +
@@ -188,8 +194,8 @@ export const ONE_WAY_ROAD_ISSUES = {
 
 export const BROWNLOW_ROAD_ISSUES = {
     "Brownlow Road": "<b>Point closure on Brownlow Road for all vehicles except for buses, emergency and service " +
-                     "vehicles.</b><br><br>" +
-                     "Although Brownlow Road will see a decline in traffic, residents of Brownlow Road would " +
-                     "need to find parking elsewhere, as they won't be allowed to drive through their own road. " +
-                     "This could result in a potential drop in property prices on this road."
+        "vehicles.</b><br><br>" +
+        "Although Brownlow Road will see a decline in traffic, residents of Brownlow Road would " +
+        "need to find parking elsewhere, as they won't be allowed to drive through their own road. " +
+        "This could result in a potential drop in property prices on this road."
 }

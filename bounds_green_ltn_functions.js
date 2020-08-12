@@ -88,7 +88,7 @@ function clickRoad(map, id, issueObject) {
         if (id === 'road-gates') {
             html = e.features[0].properties.Name
         }
-        new mapboxgl.Popup({ maxWidth: "300px" })
+        new mapboxgl.Popup({ maxWidth: "300px", className: "road-popup" })
             .setLngLat(e.lngLat)
             .setHTML(html)
             .addTo(map);
@@ -109,7 +109,7 @@ function clickSchool(map, id) {
             "<p>Average distance to main road: " + minDistance.toFixed(2) + "m</p>" +
             "<p>Number of pupils affected: " + SCHOOL_PUPIL_NUMBERS[schoolName] + "</p>"
 
-        new mapboxgl.Popup({ maxWidth: "350px", className: "popup" })
+        new mapboxgl.Popup({ maxWidth: "350px", className: "school-popup" })
             .setLngLat(e.lngLat)
             .setHTML(html)
             .addTo(map);
