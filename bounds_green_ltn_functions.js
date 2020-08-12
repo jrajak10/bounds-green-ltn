@@ -1,6 +1,7 @@
 export { addMapFeatures, addRoadsLayer, API_KEY }
 import { RESIDENTIAL_ROAD_ISSUES, TRAFFIC_ROAD_ISSUES, ONE_WAY_ROAD_ISSUES, BROWNLOW_ROAD_ISSUES } from "./road_issues.js"
 import { SCHOOL_PUPIL_NUMBERS } from "./school_pupil_numbers.js"
+import { EAST_ROADS, WEST_ROADS, SOUTH_ROADS, NO_RIGHT_TURN } from "./direction_signs.js"
 
 const API_KEY = '2RqLGYUE6yOw3yfoF2vw8dFQb3gkrD7R';
 const WFS_SERVICE_URL = 'https://api.os.uk/features/v1/wfs';
@@ -16,6 +17,14 @@ function addMapFeatures(map) {
 
     // Add event which waits for the map to be loaded.
     map.on('load', async function () {
+
+        map.on('click', function (e) {
+
+            let arr = [];
+            arr.push(e.lngLat.lng, e.lngLat.lat)
+
+            console.log("[" + arr.toString() + "]")
+        });
         let residentialRoadsArray = ['Westbury Road', 'Elvendon Road', "Goring Road", "Beech Road",
             "Hardwicke Road", "Natal Road", "York Road", "Warwick Road", "Highworth Road",
             "Stanley Road", "Ollerton Road", "Evesham Road", "Shrewsbury Road", "Maidstone Road",
@@ -40,7 +49,7 @@ function addMapFeatures(map) {
         let totalRoads = [].concat(residentialRoadsArray, trafficRoadsArray, oneWayRoadsArray, brownlowArray);
         //fetch all required roads to reduce number of requests
         let totalRoadFeatures = await getFeatures('Highways_Roadlink', totalRoads, 'RoadName1');
-      
+
         //filter road categories to add as layers
         let residentialRoads = await filterAndConvert(totalRoadFeatures, residentialRoadsArray);
         let trafficRoadFeatures = await filterAndConvert(totalRoadFeatures, trafficRoadsArray)
@@ -51,28 +60,43 @@ function addMapFeatures(map) {
         let brownlowRoad = await filterAndConvert(totalRoadFeatures, brownlowArray);
         let roadGates = await fetchData('road_gates.json');
 
-        let schoolsFilter= ['Primary Education', 'Secondary Education']
+        let schoolsFilter = ['Primary Education', 'Secondary Education']
         let totalSchoolFeatures = await getFeatures('Sites_FunctionalSite', schoolsFilter, 'SiteFunction');
         let affectedSchools = totalSchoolFeatures
             .filter(school => schoolsArray.includes(school.properties.DistinctiveName1))
-        console.log(affectedSchools)
 
-        addRoadsLayer(map, oneWayRoads, 'one-way-roads', '#084f9d', 5);
-        addRoadsLayer(map, residentialRoads, 'residential-roads', '#FFBF00', 5);
-        addRoadsLayer(map, brownlowRoad, 'brownlow-road', '#FFFF00', 10);
-        addRoadsLayer(map, trafficRoads, 'traffic-roads', '#F00', 10);
-        addRoadsLayer(map, roadGates, 'road-gates', '#000', 7.5);
-        addSchoolsLayer(map, affectedSchools);
+        
+    addMarkers(map, EAST_ROADS, 'east-marker');
+    addMarkers(map, WEST_ROADS, 'west-marker');
+    addMarkers(map, SOUTH_ROADS, 'south-marker');
+    addMarkers(map, NO_RIGHT_TURN, 'no-right-turn-marker');
+            
+    addRoadsLayer(map, oneWayRoads, 'one-way-roads', '#084f9d', 5);
+    addRoadsLayer(map, residentialRoads, 'residential-roads', '#FFBF00', 5);
+    addRoadsLayer(map, brownlowRoad, 'brownlow-road', '#FFFF00', 10);
+    addRoadsLayer(map, trafficRoads, 'traffic-roads', '#F00', 10);
+    addRoadsLayer(map, roadGates, 'road-gates', '#000', 7.5);
+    addSchoolsLayer(map, affectedSchools);
 
-        const IDS = ['residential-roads', 'traffic-roads', 'one-way-roads', 'brownlow-road', 'road-gates', 'schools'];
-        clickRoad(map, 'residential-roads', RESIDENTIAL_ROAD_ISSUES);
-        clickRoad(map, 'traffic-roads', TRAFFIC_ROAD_ISSUES);
-        clickRoad(map, 'one-way-roads', ONE_WAY_ROAD_ISSUES);
-        clickRoad(map, 'brownlow-road', BROWNLOW_ROAD_ISSUES);
-        clickSchool(map, 'schools')
-        IDS.map(ID => mouseEnter(map, ID));
-        IDS.map(ID => mouseLeave(map, ID));
-    });
+    const IDS = ['residential-roads', 'traffic-roads', 'one-way-roads', 'brownlow-road', 'road-gates', 'schools'];
+    clickRoad(map, 'residential-roads', RESIDENTIAL_ROAD_ISSUES);
+    clickRoad(map, 'traffic-roads', TRAFFIC_ROAD_ISSUES);
+    clickRoad(map, 'one-way-roads', ONE_WAY_ROAD_ISSUES);
+    clickRoad(map, 'brownlow-road', BROWNLOW_ROAD_ISSUES);
+    clickSchool(map, 'schools')
+    IDS.map(ID => mouseEnter(map, ID));
+    IDS.map(ID => mouseLeave(map, ID));
+});
+}
+
+function addMarkers(map, arr, markerClass){
+    for(let i=0; i<arr.length; i++){
+        let el = document.createElement('div');
+        el.className = markerClass;
+        new mapboxgl.Marker(el)
+            .setLngLat(arr[i].coordinates)
+            .addTo(map);
+    }
 }
 
 /**
@@ -102,9 +126,9 @@ function clickSchool(map, id) {
         let schoolCentroid = turf.centroid(e.features[0])
         let mainRoadData = map.getSource('traffic-roads')._data.features
         let minDistance = schoolToMainRoadDistance(schoolCentroid, mainRoadData)
-        let schoolName = e.features[0].properties.DistinctiveName1 
+        let schoolName = e.features[0].properties.DistinctiveName1
 
-        
+
         let html = "<h1>" + schoolName + "</h1>" +
             "<p>Average distance to main road: " + minDistance.toFixed(2) + "m</p>" +
             "<p>Number of pupils affected: " + SCHOOL_PUPIL_NUMBERS[schoolName] + "</p>"

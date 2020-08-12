@@ -132,3 +132,34 @@ a:hover {
     font-size: 14px;
 }
 
+.east-marker{
+    background-image: url("east_marker.png");
+    height: 20px;
+    width: 20px;
+    background-size: 20px 20px;
+    display: block;
+}
+
+.west-marker{
+    background-image: url("west_marker.png");
+    height: 20px;
+    width: 20px;
+    background-size: 20px 20px;
+    display: block;
+}
+
+.south-marker{
+    background-image: url("south_marker.png");
+    height: 25px;
+    width: 25px;
+    background-size: 25px 25px;
+    display: block;
+}
+
+.no-right-turn-marker{
+    background-image: url("no_right_turn.png");
+    height: 25px;
+    width: 25px;
+    background-size: 25px 25px;
+    display: block;
+}
