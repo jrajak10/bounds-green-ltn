@@ -4,7 +4,7 @@ export const TRAFFIC_ROAD_ISSUES = {
     "Bounds Green Road": "Drivers unable to turn right into Brownlow Road would need to continue straight through " +
         "Bounds Green Road. The increase in traffic will result in an increase in pollution, which " +
         "will affect staff and students in the nearby schools - Bounds Green School, " +
-        "St Michael's Church of England Primary School and Trinity Primary Academy",
+        "St Michael's Church of England Primary School and Trinity Primary Academy.",
     "Bowes Road": "<img src = \"bowes_road.jpg\"><br>Bowes Road will see an increase in congestion if the LTN goes ahead. In addition, the increase " +
         "in vehicles driving through will result in an increase in air and noise pollution, which will affect the " +
         "schools close by - Bowes School and Our Lady of Lourdes School.<br><br>Furthermore, Ambulances travelling to and from " +
