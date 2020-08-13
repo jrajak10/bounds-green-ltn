@@ -12,12 +12,12 @@ export const TRAFFIC_ROAD_ISSUES = {
         "increase in traffic, there will be an increase in journey time. In some emergencies, this increase " +
         "is a matter of life and death.",
     "Green Lanes": "Traffic will increase as a result of people driving Nortbound towards Southgate and Palmers Green, and " +
-        "Southbound towards Bounds Green and Muswell Hill, but are unable to do so using Brownlow Road. According to a " +
+        "southbound towards Bounds Green and Muswell Hill, but are unable to do so using Brownlow Road. According to a " +
         "<a href = \"https://www.haringey.gov.uk/sites/haringeygovuk/files/green_lane_study_report_final.pdf\" target=\"_blank\">study</a>, " +
         "nitrogen dioxide levels already exceeds the EU limit in this area.<br><br>Furthermore, buses will experience more delays " +
         "and significantly longer journey times due to the increase in traffic.",
     "High Road": "<img src = \"high_road.jpg\"><br>Traffic will increase as a result of people driving Nortbound towards Southgate and Palmers Green, and " +
-        "Southbound towards Bounds Green and Muswell Hill, but are unable to do so using Brownlow Road. According to a " +
+        "southbound towards Bounds Green and Muswell Hill, but are unable to do so using Brownlow Road. According to a " +
         "<a href = \"https://www.haringey.gov.uk/sites/haringeygovuk/files/green_lane_study_report_final.pdf\" target=\"_blank\">study</a>, " +
         "Nitrogen dioxide levels already exceeds the EU limit in this area.",
     "Telford Road": "<img src = \"telford_road.jpg\"><br>Telford Road (part of the A406) was already ranked as the " +
@@ -99,15 +99,16 @@ export const RESIDENTIAL_ROAD_ISSUES = {
         "more congestion from vehicles driven by residents from nearby roads. Narrow roads will also make increase " +
         "journey times for emergency vehicles.",
     "Highworth Road": "More residents from Shrewsbury Road will be driving through here, as York Road is blocked off. " +
-        "An increase in traffic from the A406 will affect students and staff at Bowes School.",
+        "An increase in traffic from the A406 will affect students and staff at Bowes School." +
+        "<br>Pollution from traffic jams at Highworth Road is already high.",
     "Stanley Road": "Residents here would have no alternative but to travel via the A406 for all their journeys. " +
         "What would previously have been a simple journey towards/through Bounds Green would now end up " +
         "being like travelling through a maze as a result of road closures.",
     "Ollerton Road": "Ollerton Road faces a similar issue to Stanley Road because there is residents cannot turn " +
-        "into the A406. For any Eastbound journeys, residents " +
+        "into the A406. For any eastbound journeys, residents " +
         "would need to take a high risk right turn through Warwick Road towards the A406 instead of " +
         "travelling through Bounds Green.",
-    "Evesham Road": "For any Eastbound journeys, residents " +
+    "Evesham Road": "For any eastbound journeys, residents " +
         "would need to take a high risk right turn through Warwick Road towards the A406 instead of " +
         "travelling through Bounds Green.",
     "Shrewsbury Road": "As York Road, Maidstone Road and Warwick Road are blocked off, residents here " +
@@ -162,31 +163,42 @@ export const RESIDENTIAL_ROAD_ISSUES = {
         "roads, which will already be full from their own residents' parking. If the scheme takes place, this " +
         "will hit elderly and disabled residents hardest. There is also the potential of property values going " +
         "down, as buyers will less likely want to buy properties in areas where they are unable to drive.",
-
+    "Bosworth Road": "Residents will have to spend more time and fuel for journeys southbound, as they are " +
+        "unable to drive through York Road to Brownlow Road, or Warwick Road to Bounds Green Road, " +
+        "and would need to make all their journeys via the A406, adding to the pollution and congestion.",
+    "Wakefield Road": "Residents will have to spend more time and fuel for journeys southbound, as they are " +
+        "unable to drive through York Road to Brownlow Road, or Warwick Road to Bounds Green Road, " +
+        "and would need to make all their journeys via the A406, adding to the pollution and congestion.",
+    "Lancaster Road": "Residents will have to spend more time and fuel for journeys southbound, as they are " +
+        "unable to drive through York Road to Brownlow Road, or Warwick Road to Bounds Green Road, " +
+        "and would need to make all their journeys via the A406, adding to the pollution and congestion.",
+    "Union Road": "Residents will have to spend more time and fuel for journeys southbound, as they are " +
+        "unable to drive through York Road to Brownlow Road, or Warwick Road to Bounds Green Road, " +
+        "and would need to make all their journeys via the A406, adding to the pollution and congestion.",
 };
 
 export const ONE_WAY_ROAD_ISSUES = {
-    "Sidney Avenue": "Residents travelling Westbound via the A406 would need to drive through Kelvin Avenue and Green Lanes " +
+    "Sidney Avenue": "Residents travelling westbound via the A406 would need to drive through Kelvin Avenue and Green Lanes " +
         "in order to get to the A406, as Palmerston Road is closed off. Their cars will contribute to increased " +
         "traffic and pollution in Green Lanes (where pollution levels are already high). The traffic lights at " +
         "Green Lanes means that their journey times will increase, and result in more fuel spent as well.",
-    "Melbourne Avenue": "Residents travelling Westbound via the A406 would need to drive through Kelvin Avenue and Green Lanes " +
+    "Melbourne Avenue": "Residents travelling westbound via the A406 would need to drive through Kelvin Avenue and Green Lanes " +
         "in order to get to the A406, as Palmerston Road is closed off. Their cars will contribute to increased " +
         "traffic and pollution in Green Lanes (where pollution levels are already high). The traffic lights at " +
         "Green Lanes means that their journey times will increase, and result in more fuel spent as well.",
-    "Kelvin Avenue": "Residents travelling Westbound via the A406 would need to drive through the Green Lanes junction " +
+    "Kelvin Avenue": "Residents travelling westbound via the A406 would need to drive through the Green Lanes junction " +
         "in order to get to the A406, as Palmerston Road is closed off. Their cars will contribute to increased " +
         "traffic and pollution in Green Lanes (where pollution levels are already high). The traffic lights at " +
         "Green Lanes means that their journey times will increase, and result in more fuel spent as well.<br><br>Residents " +
         "travelling from south would no longer be able to drive through Palmerston Road or Belsize Avenue due to " +
         "the banned right turn, and would need to take the longer journey through Melbourne Avenue. This will be " +
         "particularly frustrating during traffic jams, and more fuel will be spent.",
-    "Belsize Avenue": "Residents travelling Westbound via the A406 would need to drive through Spencer Avenue and " +
+    "Belsize Avenue": "Residents travelling westbound via the A406 would need to drive through Spencer Avenue and " +
         "Green Lanes in order to get to the A406, as Palmerston Road is closed off. Their cars will " +
         "contribute to increased traffic and pollution in Green Lanes (where pollution levels are " +
         "already high). The traffic lights at Green Lanes means that their journey times will increase, " +
         "and result in more fuel spent as well.",
-    "Spencer Avenue": "Residents travelling Westbound via the A406 would need to drive through the Green Lanes junction " +
+    "Spencer Avenue": "Residents travelling westbound via the A406 would need to drive through the Green Lanes junction " +
         "in order to get to the A406, as Palmerston Road is closed off. Their cars will contribute to increased " +
         "traffic and pollution in Green Lanes (where pollution levels are already high). The traffic lights at " +
         "Green Lanes means that their journey times will increase, and result in more fuel spent as well.",
@@ -197,5 +209,8 @@ export const BROWNLOW_ROAD_ISSUES = {
         "vehicles.</b><br><br>" +
         "Although Brownlow Road will see a decline in traffic, residents of Brownlow Road would " +
         "need to find parking elsewhere, as they won't be allowed to drive through their own road. " +
-        "This could result in a potential drop in property prices on this road."
+        "This could result in a potential drop in property prices on this road." +
+        "<br>Furthermore, many services (plumbers, electricians etc.) will drive with normal cars. As a result, " +
+        "the council might assume that they are not service vehicles and may fine them unfairly when they are " +
+        "delivering a service too."
 }
