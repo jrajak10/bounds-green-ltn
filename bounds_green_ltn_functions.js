@@ -58,9 +58,6 @@ function addMapFeatures(map) {
         let affectedSchools = totalSchoolFeatures
             .filter(school => schoolsArray.includes(school.properties.DistinctiveName1))
 
-    
-           
-
     addMarkers(map, EAST_ROADS, 'east-marker');
     addMarkers(map, WEST_ROADS, 'west-marker');
     addMarkers(map, SOUTH_ROADS, 'south-marker');
@@ -88,6 +85,7 @@ function addMapFeatures(map) {
 }
 
 function toggleOptions(key, show, hide) {
+
     document.getElementById('toggle').addEventListener('click', function () {
         let list = document.getElementById(key)
         let showButton = document.getElementById(show)
@@ -240,7 +238,8 @@ function addRoadsLayer(map, features, id, color, width) {
         'source': id,
         'paint': {
             'line-width': width,
-            'line-color': color
+            'line-color': color,
+            'line-opacity': 0.7,
         }
     });
 }
