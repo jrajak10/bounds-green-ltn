@@ -1,7 +1,7 @@
 export { addMapFeatures, addRoadsLayer, API_KEY }
 import { RESIDENTIAL_ROAD_ISSUES, TRAFFIC_ROAD_ISSUES, ONE_WAY_ROAD_ISSUES, BROWNLOW_ROAD_ISSUES } from "./road_issues.js"
 import { SCHOOL_PUPIL_NUMBERS } from "./school_pupil_numbers.js"
-import { EAST_ROADS, WEST_ROADS, SOUTH_ROADS, NO_RIGHT_TURN } from "./direction_signs.js"
+import { EAST_ROADS, WEST_ROADS, QUEENS_ROAD, NO_RIGHT_TURN } from "./direction_signs.js"
 
 const API_KEY = '2RqLGYUE6yOw3yfoF2vw8dFQb3gkrD7R';
 const WFS_SERVICE_URL = 'https://api.os.uk/features/v1/wfs';
@@ -17,12 +17,23 @@ function addMapFeatures(map) {
 
     // Add event which waits for the map to be loaded.
     map.on('load', async function () {
+        map.on('click', function (e) {
+
+
+            let bounds = map.getBounds();
+    
+            let x = e.lngLat.lng,
+                y = e.lngLat.lat;
+            let arr =[]
+            arr.push(x, y)
+            console.log("[" + (arr) + "]")
+        });
 
         let residentialRoadsArray = ['Westbury Road', 'Elvendon Road', "Goring Road", "Beech Road",
             "Hardwicke Road", "Natal Road", "York Road", "Warwick Road", "Highworth Road",
             "Stanley Road", "Ollerton Road", "Evesham Road", "Shrewsbury Road", "Maidstone Road",
             "Tewkesbury Terrace", "Russell Road", "Whittington Road", "Palmerston Road", "Eleanor Road", "Richmond Road",
-            "Herbert Road", "Fletton Road"];
+            "Herbert Road", "Fletton Road", "Queens Road"];
 
         let brownlowArray = ["Brownlow Road"];
 
@@ -33,7 +44,7 @@ function addMapFeatures(map) {
         let trafficRoadsArray = ['Bounds Green Road', 'Bowes Road', "Green Lanes", "High Road", "Telford Road",
             "Durnsford Road", "Albert Road", "Powys Lane", "Wilmer Way", "Pinkham Way", "North Circular Road"];
 
-        let oneWayRoadsArray = ["Queens Road", 'Sidney Avenue', "Melbourne Avenue", "Kelvin Avenue", "Belsize Avenue", "Spencer Avenue"];
+        let oneWayRoadsArray = ['Sidney Avenue', "Melbourne Avenue", "Kelvin Avenue", "Belsize Avenue", "Spencer Avenue"];
 
         let schoolsArray = ["St Thomas More Roman Catholic School", "Alexandra Park School", "Bowes Primary School",
             "Our Lady of Lourdes Roman Catholic Primary School", "Earlham Primary School", "Bounds Green Junior and Infants Schools",
@@ -60,7 +71,7 @@ function addMapFeatures(map) {
 
     addMarkers(map, EAST_ROADS, 'east-marker');
     addMarkers(map, WEST_ROADS, 'west-marker');
-    addMarkers(map, SOUTH_ROADS, 'south-marker');
+    addMarkers(map, QUEENS_ROAD, 'queens-road-marker');
     addMarkers(map, NO_RIGHT_TURN, 'no-right-turn-marker');
             
     addRoadsLayer(map, oneWayRoads, 'one-way-roads', '#084f9d', 5);
