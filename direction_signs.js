@@ -24,10 +24,10 @@ export const WEST_ROADS = [
     }
 ]
 
-export const SOUTH_ROADS = [
+export const QUEENS_ROAD = [
     {
         "Road": "Queens Road",
-        "coordinates": [-0.12203395369766667,51.607637229250145]
+        "coordinates": [-0.1229819226186919,51.60663023353334]
     }
 ]
 

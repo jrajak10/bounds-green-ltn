@@ -179,11 +179,11 @@ a:hover {
     display: block;
 }
 
-.south-marker{
-    background-image: url("south_marker.png");
-    height: 25px;
-    width: 25px;
-    background-size: 25px 25px;
+.queens-road-marker{
+    background-image: url("queens_road_marker.png");
+    height: 30px;
+    width: 30px;
+    background-size: 30px 30px;
     display: block;
 }
 

@@ -132,40 +132,40 @@ export const RESIDENTIAL_ROAD_ISSUES = {
         "Whittington Road is the nearest residential road for them to park.",
     "Palmerston Road": "Residents travelling towards Arnos Grove/Southgate would have a longer journey time, with " +
         "more fuel spent, as Palmerston Road is blocked off.",
-    "Eleanor Road": "As Queen\'s Road is a one way road, residents need to travel through Brownlow Road when returning" +
-        "from their journeys. If residents are banned from driving through Brownlow Road, they will not" +
+    "Eleanor Road": "As you cannot enter Queen\'s Road through Bounds Green Road, residents need to travel through Brownlow Road when returning " +
+        "from their journeys. If residents are banned from driving through Brownlow Road, they will not " +
         "be able to park close to where they live.<br><br>Moreover, they would need to park in one of the nearby " +
         "roads, which will already be full from their own residents' parking. If the scheme takes place, this " +
         "will hit elderly and disabled residents hardest. There is also the potential of property values going " +
         "down, as buyers will less likely want to buy properties in areas where they are unable to drive.",
-    "Richmond Road": "As Queen\'s Road is a one way road, residents need to travel through Brownlow Road when returning" +
-        "from their journeys. If residents are banned from driving through Brownlow Road, they will not" +
+    "Richmond Road": "As you cannot enter Queen\'s Road through Bounds Green Road, residents need to travel through Brownlow Road when returning " +
+        "from their journeys. If residents are banned from driving through Brownlow Road, they will not " +
         "be able to park close to where they live.<br><br>Moreover, they would need to park in one of the nearby " +
         "roads, which will already be full from their own residents' parking. If the scheme takes place, this " +
         "will hit elderly and disabled residents hardest. There is also the potential of property values going " +
         "down, as buyers will less likely want to buy properties in areas where they are unable to drive.",
-    "Herbert Road": "As Queen\'s Road is a one way road, residents need to travel through Brownlow Road when returning" +
-        "from their journeys. If residents are banned from driving through Brownlow Road, they will not" +
+    "Herbert Road": "As you cannot enter Queen\'s Road through Bounds Green Road, residents need to travel through Brownlow Road when returning " +
+        "from their journeys. If residents are banned from driving through Brownlow Road, they will not " +
         "be able to park close to where they live.<br><br>Moreover, they would need to park in one of the nearby " +
         "roads, which will already be full from their own residents' parking. If the scheme takes place, this " +
         "will hit elderly and disabled residents hardest. There is also the potential of property values going " +
         "down, as buyers will less likely want to buy properties in areas where they are unable to drive.",
-    "Fletton Road": "As Queen\'s Road is a one way road, residents need to travel through Brownlow Road when returning" +
-        "from their journeys. If residents are banned from driving through Brownlow Road, they will not" +
+    "Fletton Road": "As you cannot enter Queen\'s Road through Bounds Green Road, residents need to travel through Brownlow Road when returning " +
+        "from their journeys. If residents are banned from driving through Brownlow Road, they will not " +
         "be able to park close to where they live.<br><br>Moreover, they would need to park in one of the nearby " +
         "roads, which will already be full from their own residents' parking. If the scheme takes place, this " +
         "will hit elderly and disabled residents hardest. There is also the potential of property values going " +
-        "down, as buyers will less likely want to buy properties in areas where they are unable to drive."
-
-};
-
-export const ONE_WAY_ROAD_ISSUES = {
-    "Queens Road": "As Queen\'s Road is a one way road, residents need to travel through Brownlow Road when returning" +
-        "from their journeys. If residents are banned from driving through Brownlow Road, they will not" +
+        "down, as buyers will less likely want to buy properties in areas where they are unable to drive.",
+    "Queens Road": "As you cannot enter Queen\'s Road through Bounds Green Road, residents need to travel through Brownlow Road when returning " +
+        "from their journeys. If residents are banned from driving through Brownlow Road, they will not " +
         "be able to park close to where they live.<br><br>In addition, they would need to park in one of the nearby " +
         "roads, which will already be full from their own residents' parking. If the scheme takes place, this " +
         "will hit elderly and disabled residents hardest. There is also the potential of property values going " +
         "down, as buyers will less likely want to buy properties in areas where they are unable to drive.",
+
+};
+
+export const ONE_WAY_ROAD_ISSUES = {
     "Sidney Avenue": "Residents travelling Westbound via the A406 would need to drive through Kelvin Avenue and Green Lanes " +
         "in order to get to the A406, as Palmerston Road is closed off. Their cars will contribute to increased " +
         "traffic and pollution in Green Lanes (where pollution levels are already high). The traffic lights at " +
