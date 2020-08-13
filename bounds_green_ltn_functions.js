@@ -51,7 +51,6 @@ function addMapFeatures(map) {
 
         trafficRoadFeatures = await filterAndConvert(trafficRoadFeatures, trafficRoadsArray);
 
-        // console.log(trafficRoadFeatures.map(feature => !albertIDstoFilter.includes(feature.properties.OBJECTID)))
         //filter out Albert Road features not in the main road.
         let trafficRoads = trafficRoadFeatures
             .filter(feature => !albertIDstoFilter.includes(feature.properties.OBJECTID));
