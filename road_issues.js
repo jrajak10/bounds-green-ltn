@@ -19,7 +19,7 @@ export const TRAFFIC_ROAD_ISSUES = {
     "High Road": "<img src = \"high_road.jpg\"><br>Traffic will increase as a result of people driving Nortbound towards Southgate and Palmers Green, and " +
         "southbound towards Bounds Green and Muswell Hill, but are unable to do so using Brownlow Road. According to a " +
         "<a href = \"https://www.haringey.gov.uk/sites/haringeygovuk/files/green_lane_study_report_final.pdf\" target=\"_blank\">study</a>, " +
-        "Nitrogen dioxide levels already exceeds the EU limit in this area.",
+        "nitrogen dioxide levels already exceeds the EU limit in this area.",
     "Telford Road": "<img src = \"telford_road.jpg\"><br>Telford Road (part of the A406) was already ranked as the " +
         "<a href=\"https://www.bbc.co.uk/news/uk-england-47175799\" target=\"_blank\">" +
         "6th most congested road in the UK</a>, with an estimated 43 hours lost per year. " +
@@ -132,7 +132,9 @@ export const RESIDENTIAL_ROAD_ISSUES = {
         "Fletton Road, as they will be unable to drive or park on their own roads according to the new proposals, and " +
         "Whittington Road is the nearest residential road for them to park.",
     "Palmerston Road": "Residents travelling towards Arnos Grove/Southgate would have a longer journey time, with " +
-        "more fuel spent, as Palmerston Road is blocked off.",
+        "more fuel spent, as Palmerston Road is blocked off. <br><br>Residents reported that it took up to 40 minutes " +
+        "to get to Green Lanes when Palmerston Road was closed off from the A406 for 3 months last year due to roadworks. " +
+        "The area is also well known for having issues with potholes.",
     "Eleanor Road": "As you cannot enter Queen\'s Road through Bounds Green Road, residents need to travel through Brownlow Road when returning " +
         "from their journeys. If residents are banned from driving through Brownlow Road, they will not " +
         "be able to park close to where they live.<br><br>Moreover, they would need to park in one of the nearby " +
@@ -210,7 +212,7 @@ export const BROWNLOW_ROAD_ISSUES = {
         "Although Brownlow Road will see a decline in traffic, residents of Brownlow Road would " +
         "need to find parking elsewhere, as they won't be allowed to drive through their own road. " +
         "This could result in a potential drop in property prices on this road." +
-        "<br>Furthermore, many services (plumbers, electricians etc.) will drive with normal cars. As a result, " +
+        "<br><br>Furthermore, many services (plumbers, electricians etc.) will drive with normal cars. As a result, " +
         "the council might assume that they are not service vehicles and may fine them unfairly when they are " +
         "delivering a service too."
 }

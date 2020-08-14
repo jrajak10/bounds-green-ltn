@@ -18,50 +18,50 @@ function addMapFeatures(map) {
     // Add event which waits for the map to be loaded.
     map.on('load', async function () {
 
-        let residentialRoadsArray = ['Westbury Road', 'Elvendon Road', "Goring Road", "Beech Road",
+        const RESIDENTIAL_ROADS_ARRAY = ['Westbury Road', 'Elvendon Road', "Goring Road", "Beech Road",
             "Hardwicke Road", "Russell Road", "Whittington Road", "Palmerston Road", "Eleanor Road", "Richmond Road",
             "Herbert Road", "Fletton Road", "Queens Road", "Natal Road", "York Road", "Warwick Road", "Bosworth Road", "Lancaster Road", "Wakefield Road",
             "Union Road", "Highworth Road", "Stanley Road", "Ollerton Road", "Evesham Road", "Shrewsbury Road", 
             "Maidstone Road", "Tewkesbury Terrace"]
 
-        let brownlowArray = ["Brownlow Road"];
+        const BROWNLOW_ARRAY = ["Brownlow Road"];
 
         // Creating a separate array of OBJECTIDS on Albert Road but not on the main road 
         // to filter out.
-        let albertIDstoFilter = [2741116, 2836222, 2735510, 2811727, 3667766, 4172927, 2643822, 2865212]
+        const ALBERT_IDS_TO_FILTER = [2741116, 2836222, 2735510, 2811727, 3667766, 4172927, 2643822, 2865212]
 
-        let trafficRoadsArray = ['Bounds Green Road', 'Bowes Road', "Green Lanes", "High Road", "Telford Road",
+        const TRAFFIC_ROADS_ARRAY = ['Bounds Green Road', 'Bowes Road', "Green Lanes", "High Road", "Telford Road",
             "Durnsford Road", "Albert Road", "Powys Lane", "Wilmer Way", "Pinkham Way", "North Circular Road"];
 
-        let oneWayRoadsArray = ['Sidney Avenue', "Melbourne Avenue", "Kelvin Avenue", "Belsize Avenue", "Spencer Avenue"];
-
-        let schoolsArray = ["St Thomas More Roman Catholic School", "Alexandra Park School", "Bowes Primary School",
-            "Our Lady of Lourdes Roman Catholic Primary School", "Earlham Primary School", "Bounds Green Junior and Infants Schools",
-            "Rhodes Avenue Primary School", "Broomfield School", "St Anne's Roman Catholic High School for Girls",
-            "St Michael's Church of England Primary School", "Trinity Primary Academy School"]
+        const ONE_WAY_ROADS_ARRAY = ['Sidney Avenue', "Melbourne Avenue", "Kelvin Avenue", "Belsize Avenue", "Spencer Avenue"];
 
         //unable to put all the arrays into one big array, due to the request string being too long.
-        let nonTrafficRoads = [].concat(residentialRoadsArray, brownlowArray, oneWayRoadsArray);
+        const NON_TRAFFIC_ROADS = [].concat(RESIDENTIAL_ROADS_ARRAY, BROWNLOW_ARRAY, ONE_WAY_ROADS_ARRAY);
 
         //fetch all required roads to reduce number of requests
-        let trafficRoadFeatures = await getFeatures('Highways_Roadlink', trafficRoadsArray, 'RoadName1');
-        let nonTrafficRoadFeatures = await getFeatures('Highways_Roadlink', nonTrafficRoads, 'RoadName1');
+        let trafficRoadFeatures = await getFeatures('Highways_Roadlink', TRAFFIC_ROADS_ARRAY, 'RoadName1');
+        let nonTrafficRoadFeatures = await getFeatures('Highways_Roadlink', NON_TRAFFIC_ROADS, 'RoadName1');
+        
         //filter road categories to add as layers
-        let residentialRoads = await filterAndConvert(nonTrafficRoadFeatures, residentialRoadsArray);
-
-        trafficRoadFeatures = await filterAndConvert(trafficRoadFeatures, trafficRoadsArray);
-
+        let residentialRoads = await filterAndConvert(nonTrafficRoadFeatures, RESIDENTIAL_ROADS_ARRAY);
+        trafficRoadFeatures = await filterAndConvert(trafficRoadFeatures, TRAFFIC_ROADS_ARRAY);
         //filter out Albert Road features not in the main road.
         let trafficRoads = trafficRoadFeatures
-            .filter(feature => !albertIDstoFilter.includes(feature.properties.OBJECTID));
-        let oneWayRoads = await filterAndConvert(nonTrafficRoadFeatures, oneWayRoadsArray);
-        let brownlowRoad = await filterAndConvert(nonTrafficRoadFeatures, brownlowArray);
+            .filter(feature => !ALBERT_IDS_TO_FILTER.includes(feature.properties.OBJECTID));
+        let oneWayRoads = await filterAndConvert(nonTrafficRoadFeatures, ONE_WAY_ROADS_ARRAY);
+        let brownlowRoad = await filterAndConvert(nonTrafficRoadFeatures, BROWNLOW_ARRAY);
         let roadGates = await fetchData('road_gates.json');
 
-        let schoolsFilter = ['Primary Education', 'Secondary Education']
-        let totalSchoolFeatures = await getFeatures('Sites_FunctionalSite', schoolsFilter, 'SiteFunction');
+        //add schools features
+        const SCHOOLS_ARRAY = ["St Thomas More Roman Catholic School", "Alexandra Park School", "Bowes Primary School",
+            "Our Lady of Lourdes Roman Catholic Primary School", "Earlham Primary School", "Bounds Green Junior and Infants Schools",
+            "Rhodes Avenue Primary School", "Broomfield School", "St Anne's Roman Catholic High School for Girls",
+            "St Michael's Church of England Primary School", "Trinity Primary Academy School"];
+
+        const SCHOOLS_FILTER = ['Primary Education', 'Secondary Education'];
+        let totalSchoolFeatures = await getFeatures('Sites_FunctionalSite', SCHOOLS_FILTER, 'SiteFunction');
         let affectedSchools = totalSchoolFeatures
-            .filter(school => schoolsArray.includes(school.properties.DistinctiveName1))
+            .filter(school => SCHOOLS_ARRAY.includes(school.properties.DistinctiveName1))
 
         addMarkers(map, EAST_ROADS, 'east-marker');
         addMarkers(map, WEST_ROADS, 'west-marker');
@@ -90,7 +90,6 @@ function addMapFeatures(map) {
 }
 
 function toggleOptions(key, show, hide) {
-
     document.getElementById('toggle').addEventListener('click', function () {
         let list = document.getElementById(key)
         let showButton = document.getElementById(show)
@@ -109,20 +108,16 @@ function toggleOptions(key, show, hide) {
     });
 }
 
-function addMarkers(map, arr, markerClass) {
-    for (let i = 0; i < arr.length; i++) {
+function addMarkers(map, array, markerClass) {
+    for (let i = 0; i < array.length; i++) {
         let el = document.createElement('div');
         el.className = markerClass;
         new mapboxgl.Marker(el)
-            .setLngLat(arr[i].coordinates)
+            .setLngLat(array[i].coordinates)
             .addTo(map);
     }
 }
 
-/**
-  * 
-  * @param {object} params
-  */
 function clickRoad(map, id, issueObject) {
     // When a click event occurs on a feature in the 'roads' layer, open a popup at
     // the location of the click, with description HTML from its properties.
@@ -173,6 +168,7 @@ function mouseLeave(map, id) {
     });
 }
 
+
 function schoolToMainRoadDistance(schoolCentroid, mainRoadData) {
     //approx distance of the sw and ne coordinates, starting point to calculate minimun distances
     let minDistance = 2500;
@@ -187,7 +183,8 @@ function schoolToMainRoadDistance(schoolCentroid, mainRoadData) {
 
 /**
  * 
- * @param {array} params
+ * @param {string[]} array - the array of schools/roads to show
+ * @param {string} propertyName - the propertyName to be filtered
  **/
 function xmlFilter(array, propertyName) {
     let string = '';
@@ -202,32 +199,37 @@ function xmlFilter(array, propertyName) {
 
 /**
 * 
-* @param {array} params
+* @param {Object[]} roadFeatures -  the array of road features
+* @param {string []} array - the array of roads you want filtered
 **/
-async function filterRoads(totalRoadFeatures, array) {
-    return totalRoadFeatures.filter(road => array.includes(road.properties.RoadName1))
+async function filterRoads(roadFeatures, array) {
+    return roadFeatures.filter(road => array.includes(road.properties.RoadName1))
 }
 
 /**
  * 
- * @param {array} params
+ * @param {Object[]} array - array of features
  **/
-function convertLineStringCoords(arr) {
-    for (let i = 0; i < arr.length; i++) {
-        arr[i].geometry.coordinates = arr[i].geometry.coordinates[0];
+
+ //convert the coordinates of the array for the linestring to work
+function convertLineStringCoords(array) {
+    for (let i = 0; i < array.length; i++) {
+        array[i].geometry.coordinates = array[i].geometry.coordinates[0];
     }
-    return arr;
+    return array;
 }
 
 /**
  * 
- * @param {array} params
+ * @param {Object[]} roadFeatures -  the array of road features
+ * @param {string []} array - the array of roads you want filtered and converted
  */
-async function filterAndConvert(totalRoadFeatures, arr) {
-    let roads = await filterRoads(totalRoadFeatures, arr);
+async function filterAndConvert(roadFeatures, array) {
+    let roads = await filterRoads(roadFeatures, array);
     let convertedArray = convertLineStringCoords(roads);
     return convertedArray;
 }
+
 
 function addRoadsLayer(map, features, id, color, width) {
     map.addSource(id, {
@@ -281,9 +283,13 @@ async function fetchData(data) {
 
 /**
  * Get features from the WFS.
+ * @param {string} typeName - the typeName for the WFS
+ * @param {string[]} array - the array of schools/roads to show
+ * @param {string} propertyName - the propertyName to be filtered
  */
 async function getFeatures(typeName, array, propertyName) {
-    // Convert the bounds to a formatted string.
+
+    // Convert the bounds to a formatted string bounding the affected area on the map.
     let sw = [51.59536880893367, -0.13772922026373635],
         ne = [51.61892429114269, -0.09636146493642173];
 
