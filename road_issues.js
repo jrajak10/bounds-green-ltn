@@ -132,7 +132,9 @@ export const RESIDENTIAL_ROAD_ISSUES = {
         "Fletton Road, as they will be unable to drive or park on their own roads according to the new proposals, and " +
         "Whittington Road is the nearest residential road for them to park.",
     "Palmerston Road": "Residents travelling towards Arnos Grove/Southgate would have a longer journey time, with " +
-        "more fuel spent, as Palmerston Road is blocked off.",
+        "more fuel spent, as Palmerston Road is blocked off. <br><br>Residents reported that it took up to 40 minutes " +
+        "to get to Green Lanes when Palmerston Road was closed off from the A406 for 3 months last year due to roadworks. " +
+        "The area is also well known for having issues with potholes.",
     "Eleanor Road": "As you cannot enter Queen\'s Road through Bounds Green Road, residents need to travel through Brownlow Road when returning " +
         "from their journeys. If residents are banned from driving through Brownlow Road, they will not " +
         "be able to park close to where they live.<br><br>Moreover, they would need to park in one of the nearby " +
