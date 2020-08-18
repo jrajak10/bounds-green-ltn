@@ -194,6 +194,37 @@ a:hover {
     display: block;
 }
 
+.enfield-label{
+    background-image: url("enfield_label.png");
+    height: 16px;
+    width: 30px;
+    background-size: 33px 18px;
+    display: block;
+}
+
+.haringey-label{
+    background-image: url("haringey_label.png");
+    height: 18px;
+    width: 30px;
+    background-size: 33px 25px;
+    display: block;
+}
+
+.barnet-label{
+    background-image: url("barnet_label.png");
+    height: 16px;
+    width: 30px;
+    background-size: 35px 22px;
+    display: block;
+}
+
+#borough-boundary{
+    padding-right: 20px;
+    height: 40px;
+    width: 50px;
+
+}
+
 @media (min-width: 768px){
     body { 
         margin:0; 
