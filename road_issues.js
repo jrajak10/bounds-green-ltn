@@ -140,31 +140,48 @@ export const RESIDENTIAL_ROAD_ISSUES = {
         "be able to park close to where they live.<br><br>Moreover, they would need to park in one of the nearby " +
         "roads, which will already be full from their own residents' parking. If the scheme takes place, this " +
         "will hit elderly and disabled residents hardest. There is also the potential of property values going " +
-        "down, as buyers will less likely want to buy properties in areas where they are unable to drive.",
+        "down, as buyers will less likely want to buy properties in areas where they are unable to drive." +
+        "<br><br>Finally, Eleanor Road is in the Borough of Haringey, and the scheme will also impact Haringey " +
+        "residents. Enfield Council have " +
+        "failed to adequately communicate the impact these proposals will have on their residents.",
     "Richmond Road": "As you cannot enter Queen\'s Road through Bounds Green Road, residents need to travel through Brownlow Road when returning " +
         "from their journeys. If residents are banned from driving through Brownlow Road, they will not " +
         "be able to park close to where they live.<br><br>Moreover, they would need to park in one of the nearby " +
         "roads, which will already be full from their own residents' parking. If the scheme takes place, this " +
         "will hit elderly and disabled residents hardest. There is also the potential of property values going " +
-        "down, as buyers will less likely want to buy properties in areas where they are unable to drive.",
+        "down, as buyers will less likely want to buy properties in areas where they are unable to drive." +
+        "<br><br>Finally, Richmond Road is in the Borough of Haringey, and the scheme will also impact Haringey " +
+        "residents. Enfield Council have " +
+        "failed to adequately communicate the impact these proposals will have on their residents.",
     "Herbert Road": "As you cannot enter Queen\'s Road through Bounds Green Road, residents need to travel through Brownlow Road when returning " +
         "from their journeys. If residents are banned from driving through Brownlow Road, they will not " +
         "be able to park close to where they live.<br><br>Moreover, they would need to park in one of the nearby " +
         "roads, which will already be full from their own residents' parking. If the scheme takes place, this " +
         "will hit elderly and disabled residents hardest. There is also the potential of property values going " +
-        "down, as buyers will less likely want to buy properties in areas where they are unable to drive.",
+        "down, as buyers will less likely want to buy properties in areas where they are unable to drive." +
+        "<br><br>Herbert Road is where the Bounds Green Food Bank is, and people who are already struggling " +
+        "financially will find it harder to access the foodbank with limited transportation." +
+        "<br><br>Finally, Herbert Road is in the Borough of Haringey, and the scheme will also impact Haringey " +
+        "residents. Enfield Council have " +
+        "failed to adequately communicate the impact these proposals will have on their residents.",
     "Fletton Road": "As you cannot enter Queen\'s Road through Bounds Green Road, residents need to travel through Brownlow Road when returning " +
         "from their journeys. If residents are banned from driving through Brownlow Road, they will not " +
         "be able to park close to where they live.<br><br>Moreover, they would need to park in one of the nearby " +
         "roads, which will already be full from their own residents' parking. If the scheme takes place, this " +
         "will hit elderly and disabled residents hardest. There is also the potential of property values going " +
-        "down, as buyers will less likely want to buy properties in areas where they are unable to drive.",
+        "down, as buyers will less likely want to buy properties in areas where they are unable to drive." +
+        "<br><br>Finally, Fletton Road is in the Borough of Haringey, and the scheme will also impact Haringey " +
+        "residents. Enfield Council have " +
+        "failed to adequately communicate the impact these proposals will have on their residents.",
     "Queens Road": "As you cannot enter Queen\'s Road through Bounds Green Road, residents need to travel through Brownlow Road when returning " +
         "from their journeys. If residents are banned from driving through Brownlow Road, they will not " +
         "be able to park close to where they live.<br><br>In addition, they would need to park in one of the nearby " +
         "roads, which will already be full from their own residents' parking. If the scheme takes place, this " +
         "will hit elderly and disabled residents hardest. There is also the potential of property values going " +
-        "down, as buyers will less likely want to buy properties in areas where they are unable to drive.",
+        "down, as buyers will less likely want to buy properties in areas where they are unable to drive." +
+        "<br><br>Finally, Queen\s Road is in the Borough of Haringey, and the scheme will also impact Haringey " +
+        "residents. Enfield Council have " +
+        "failed to adequately communicate the impact these proposals will have on their residents.",
     "Bosworth Road": "Residents will have to spend more time and fuel for journeys southbound, as they are " +
         "unable to drive through York Road to Brownlow Road, or Warwick Road to Bounds Green Road, " +
         "and would need to make all their journeys via the A406, adding to the pollution and congestion.",
@@ -177,6 +194,24 @@ export const RESIDENTIAL_ROAD_ISSUES = {
     "Union Road": "Residents will have to spend more time and fuel for journeys southbound, as they are " +
         "unable to drive through York Road to Brownlow Road, or Warwick Road to Bounds Green Road, " +
         "and would need to make all their journeys via the A406, adding to the pollution and congestion.",
+    "Clarence Road": "Clarence Road is already known as a road used as a cut through for people " +
+        "looking for a quicker route to the A406. As traffic will increase on Bounds Green " +
+        "Road and Green Lanes as a result of the scheme, it is highly likely Clarence Road " +
+        "will see an increase in traffic and pollution. <br><br>Furthermore, it is in the " +
+        "Borough of Haringey, and will affect residents from Haringey. Enfield Council have " +
+        "failed to adequately communicate the impact these proposals will have on their residents.",
+    "Truro Road": "Truro Road is already known as a road used as a cut through for people " +
+        "looking for a quicker route to the A406. As traffic will increase on Bounds Green " +
+        "Road and Green Lanes as a result of the scheme, it is highly likely Truro Road " +
+        "will see an increase in traffic and pollution. <br><br>Furthermore, it is in the " +
+        "Borough of Haringey, and will affect residents from Haringey. Enfield Council have " +
+        "failed to adequately communicate the impact these proposals will have on their residents.",
+    "Nightingale Road": "Nightingale Road is already known as a road used as a cut through for people " +
+        "looking for a quicker route to the A406. As traffic will increase on Bounds Green " +
+        "Road and Green Lanes as a result of the scheme, it is highly likely Nightingale Road " +
+        "will see an increase in traffic and pollution. <br><br>Furthermore, it is in the " +
+        "Borough of Haringey, and will affect residents from Haringey. Enfield Council have " +
+        "failed to adequately communicate the impact these proposals will have on their residents."
 };
 
 export const ONE_WAY_ROAD_ISSUES = {
