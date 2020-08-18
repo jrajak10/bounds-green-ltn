@@ -23,7 +23,7 @@ function addMapFeatures(map) {
             "Hardwicke Road", "Russell Road", "Whittington Road", "Palmerston Road", "Eleanor Road", "Richmond Road",
             "Herbert Road", "Fletton Road", "Queens Road", "Natal Road", "York Road", "Warwick Road", "Bosworth Road", "Lancaster Road", "Wakefield Road",
             "Union Road", "Highworth Road", "Stanley Road", "Ollerton Road", "Evesham Road", "Shrewsbury Road", 
-            "Maidstone Road", "Tewkesbury Terrace"]
+            "Maidstone Road", "Tewkesbury Terrace", "Clarence Road", "Truro Road", "Nightingale Road"]
 
         const BROWNLOW_ARRAY = ["Brownlow Road"];
 
@@ -139,7 +139,9 @@ function clickRoad(map, id, issueObject) {
         if (id === 'road-gates') {
             html = e.features[0].properties.Name
         }
-        new mapboxgl.Popup({ maxWidth: "300px", className: "road-popup" })
+
+
+        new mapboxgl.Popup({ maxWidth: "300px", className: "road-popup", anchor: 'left' })
             .setLngLat(e.lngLat)
             .setHTML(html)
             .addTo(map);
