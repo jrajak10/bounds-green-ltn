@@ -2,6 +2,7 @@ export { addMapFeatures, addRoadsLayer, API_KEY }
 import { RESIDENTIAL_ROAD_ISSUES, TRAFFIC_ROAD_ISSUES, ONE_WAY_ROAD_ISSUES, BROWNLOW_ROAD_ISSUES } from "./road_issues.js"
 import { SCHOOL_PUPIL_NUMBERS } from "./school_pupil_numbers.js"
 import { EAST_ROADS, WEST_ROADS, QUEENS_ROAD, NO_RIGHT_TURN } from "./direction_signs.js"
+import { ENFIELD_LABELS, HARINGEY_LABELS, BARNET_LABELS } from "./borough_labels.js"
 
 const API_KEY = '2RqLGYUE6yOw3yfoF2vw8dFQb3gkrD7R';
 const WFS_SERVICE_URL = 'https://api.os.uk/features/v1/wfs';
@@ -61,12 +62,16 @@ function addMapFeatures(map) {
         const SCHOOLS_FILTER = ['Primary Education', 'Secondary Education'];
         let totalSchoolFeatures = await getFeatures('Sites_FunctionalSite', SCHOOLS_FILTER, 'SiteFunction');
         let affectedSchools = totalSchoolFeatures
-            .filter(school => SCHOOLS_ARRAY.includes(school.properties.DistinctiveName1))
+            .filter(school => SCHOOLS_ARRAY.includes(school.properties.DistinctiveName1));
 
-        addMarkers(map, EAST_ROADS, 'east-marker');
-        addMarkers(map, WEST_ROADS, 'west-marker');
-        addMarkers(map, QUEENS_ROAD, 'queens-road-marker');
-        addMarkers(map, NO_RIGHT_TURN, 'no-right-turn-marker');
+        let boroughPolygons = await fetchData('barnet_enfield_haringey.json');
+        
+        //create an array of parameters to add all the markers
+        let markerArray = [EAST_ROADS, WEST_ROADS, QUEENS_ROAD, NO_RIGHT_TURN, ENFIELD_LABELS, HARINGEY_LABELS,
+                            BARNET_LABELS];
+        let markerIds = ['east-marker', 'west-marker', 'queens-road-marker', 'no-right-turn-marker',
+                         'enfield-label', 'haringey-label', 'barnet-label']
+        addAllMarkers(map, markerArray, markerIds);
 
         addRoadsLayer(map, oneWayRoads, 'one-way-roads', '#084f9d', 5);
         addRoadsLayer(map, residentialRoads, 'residential-roads', '#FFBF00', 5);
@@ -74,6 +79,7 @@ function addMapFeatures(map) {
         addRoadsLayer(map, trafficRoads, 'traffic-roads', '#F00', 10);
         addRoadsLayer(map, roadGates, 'road-gates', '#000', 7.5);
         addSchoolsLayer(map, affectedSchools);
+        addBoroughBoundaries(map, boroughPolygons, 'borough-boundaries', '#000', 2);
 
         const IDS = ['residential-roads', 'traffic-roads', 'one-way-roads', 'brownlow-road', 'road-gates', 'schools'];
         clickRoad(map, 'residential-roads', RESIDENTIAL_ROAD_ISSUES);
@@ -115,6 +121,12 @@ function addMarkers(map, array, markerClass) {
         new mapboxgl.Marker(el)
             .setLngLat(array[i].coordinates)
             .addTo(map);
+    }
+}
+
+function addAllMarkers(map, array1, array2){
+    for(let i=0; i<array1.length; i++){
+        addMarkers(map, array1[i], array2[i])
     }
 }
 
@@ -269,8 +281,30 @@ function addSchoolsLayer(map, features) {
             "fill-opacity": 0.8
         }
     });
-
 }
+
+function addBoroughBoundaries(map, features, id, color, width) {
+    map.addSource(id, {
+        'type': 'geojson',
+        'data': {
+            'type': 'FeatureCollection',
+            'features': features
+        }
+    });
+    map.addLayer({
+        'id': id,
+        'type': 'line',
+        'source': id,
+        'paint': {
+            'line-width': width,
+            'line-color': color,
+            "line-dasharray": [3, 4],
+            'line-opacity': 0.4,
+        }
+    });
+}
+
+
 
 
 //fetches json data from json files
