@@ -27,12 +27,12 @@ function addMapFeatures(map) {
 
         const BROWNLOW_ARRAY = ["Brownlow Road"];
 
+        const TRAFFIC_ROADS_ARRAY = ['Bounds Green Road', 'Bowes Road', "Green Lanes", "High Road", "Telford Road",
+            "Durnsford Road", "Albert Road", "Powys Lane", "Wilmer Way", "Pinkham Way", "North Circular Road"];
+
         // Creating a separate array of OBJECTIDS on Albert Road but not on the main road 
         // to filter out.
         const ALBERT_IDS_TO_FILTER = [2741116, 2836222, 2735510, 2811727, 3667766, 4172927, 2643822, 2865212]
-
-        const TRAFFIC_ROADS_ARRAY = ['Bounds Green Road', 'Bowes Road', "Green Lanes", "High Road", "Telford Road",
-            "Durnsford Road", "Albert Road", "Powys Lane", "Wilmer Way", "Pinkham Way", "North Circular Road"];
 
         const ONE_WAY_ROADS_ARRAY = ['Sidney Avenue', "Melbourne Avenue", "Kelvin Avenue", "Belsize Avenue", "Spencer Avenue"];
 
@@ -64,6 +64,7 @@ function addMapFeatures(map) {
         let affectedSchools = totalSchoolFeatures
             .filter(school => SCHOOLS_ARRAY.includes(school.properties.DistinctiveName1));
 
+        //fetch the borough boundary lines to add to the map
         let boroughPolygons = await fetchData('barnet_enfield_haringey.json');
         
         //create an array of parameters to add all the markers
@@ -131,7 +132,7 @@ function addAllMarkers(map, array1, array2){
 }
 
 function clickRoad(map, id, issueObject) {
-    // When a click event occurs on a feature in the 'roads' layer, open a popup at
+    // When a click event occurs on a feature in the roads layer, open a popup at
     // the location of the click, with description HTML from its properties.
     map.on('click', id, function (e) {
         let html = "<h1>" + e.features[0].properties.RoadName1 + "</h1><p>" +
@@ -139,7 +140,6 @@ function clickRoad(map, id, issueObject) {
         if (id === 'road-gates') {
             html = e.features[0].properties.Name
         }
-
 
         new mapboxgl.Popup({ maxWidth: "300px", className: "road-popup", anchor: 'left' })
             .setLngLat(e.lngLat)
@@ -149,7 +149,7 @@ function clickRoad(map, id, issueObject) {
 }
 
 function clickSchool(map, id) {
-    // When a click event occurs on a feature in the 'roads' layer, open a popup at
+    // When a click event occurs on a feature in the schools layer, open a popup at
     // the location of the click, with description HTML from its properties.
     map.on('click', id, function (e) {
         let schoolCentroid = turf.centroid(e.features[0])
@@ -169,14 +169,14 @@ function clickSchool(map, id) {
 }
 
 function mouseEnter(map, id) {
-    // Change the cursor to a pointer when the mouse is over the 'roads' layer.
+    // Change the cursor to a pointer when the mouse is over the layers.
     map.on('mouseenter', id, function () {
         map.getCanvas().style.cursor = 'pointer';
     });
 }
 
 function mouseLeave(map, id) {
-    // Change the cursor back to a pointer when it leaves the 'roads' layer.
+    // Change the cursor back to a pointer when it leaves the layers.
     map.on('mouseleave', id, function () {
         map.getCanvas().style.cursor = '';
     });
