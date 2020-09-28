@@ -194,19 +194,19 @@ export const RESIDENTIAL_ROAD_ISSUES = {
     "Union Road": "Residents will have to spend more time and fuel for journeys southbound, as they are " +
         "unable to drive through York Road to Brownlow Road, or Warwick Road to Bounds Green Road, " +
         "and would need to make all their journeys via the A406, adding to the pollution and congestion.",
-    "Clarence Road": "Clarence Road is already known as a road used as a cut through for people " +
+    "Clarence Road": "Clarence Road is already known as a road used as a cut through for drivers " +
         "looking for a quicker route to the A406. As traffic will increase on Bounds Green " +
         "Road and Green Lanes as a result of the scheme, it is highly likely Clarence Road " +
         "will see an increase in traffic and pollution. <br><br>Furthermore, it is in the " +
         "Borough of Haringey, and will affect residents from Haringey. Enfield Council have " +
         "failed to adequately communicate the impact these proposals will have on their residents.",
-    "Truro Road": "Truro Road is already known as a road used as a cut through for people " +
+    "Truro Road": "Truro Road is already known as a road used as a cut through for drivers " +
         "looking for a quicker route to the A406. As traffic will increase on Bounds Green " +
         "Road and Green Lanes as a result of the scheme, it is highly likely Truro Road " +
         "will see an increase in traffic and pollution. <br><br>Furthermore, it is in the " +
         "Borough of Haringey, and will affect residents from Haringey. Enfield Council have " +
         "failed to adequately communicate the impact these proposals will have on their residents.",
-    "Nightingale Road": "Nightingale Road is already known as a road used as a cut through for people " +
+    "Nightingale Road": "Nightingale Road is already known as a road used as a cut through for drivers " +
         "looking for a quicker route to the A406. As traffic will increase on Bounds Green " +
         "Road and Green Lanes as a result of the scheme, it is highly likely Nightingale Road " +
         "will see an increase in traffic and pollution. <br><br>Furthermore, it is in the " +

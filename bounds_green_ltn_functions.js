@@ -32,7 +32,8 @@ function addMapFeatures(map) {
 
         // Creating a separate array of OBJECTIDS on Albert Road but not on the main road 
         // to filter out.
-        const ALBERT_IDS_TO_FILTER = [2741116, 2836222, 2735510, 2811727, 3667766, 4172927, 2643822, 2865212]
+        const ALBERT_IDS_TO_FILTER = ['osgb4000000030253594', 'osgb4000000030358025', 'osgb4000000030358029', 'osgb4000000030253593', 
+        'osgb4000000030253589', 'osgb4000000030253588', 'osgb5000005215662007'];
 
         const ONE_WAY_ROADS_ARRAY = ['Sidney Avenue', "Melbourne Avenue", "Kelvin Avenue", "Belsize Avenue", "Spencer Avenue"];
 
@@ -48,7 +49,7 @@ function addMapFeatures(map) {
         trafficRoadFeatures = await filterAndConvert(trafficRoadFeatures, TRAFFIC_ROADS_ARRAY);
         //filter out Albert Road features not in the main road.
         let trafficRoads = trafficRoadFeatures
-            .filter(feature => !ALBERT_IDS_TO_FILTER.includes(feature.properties.OBJECTID));
+            .filter(feature => !ALBERT_IDS_TO_FILTER.includes(feature.properties.ID));
         let oneWayRoads = await filterAndConvert(nonTrafficRoadFeatures, ONE_WAY_ROADS_ARRAY);
         let brownlowRoad = await filterAndConvert(nonTrafficRoadFeatures, BROWNLOW_ARRAY);
         let roadGates = await fetchData('road_gates.json');
@@ -135,6 +136,7 @@ function clickRoad(map, id, issueObject) {
     // When a click event occurs on a feature in the roads layer, open a popup at
     // the location of the click, with description HTML from its properties.
     map.on('click', id, function (e) {
+        console.log(e.features[0].properties.OBJECTID)
         let html = "<h1>" + e.features[0].properties.RoadName1 + "</h1><p>" +
             issueObject[e.features[0].properties.RoadName1] + "</p>"
         if (id === 'road-gates') {
